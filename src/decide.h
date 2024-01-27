@@ -75,6 +75,10 @@ public:
 
   // Call functions for 2.1 - 2.4 and print answer to stdout.
   void decide();
+
+  // Debug function that prints all member variables to stdout.
+  void debugprint() const;
+  
 };
 
 #endif
