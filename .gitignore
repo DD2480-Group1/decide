@@ -33,3 +33,4 @@
 
 # build
 build/
+.compile-commands.json
