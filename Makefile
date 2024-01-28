@@ -1,9 +1,9 @@
 CPP_FLAGS = -std=c++11 -Wall -Wextra -Werror -g
 SOURCES = $(wildcard src/*.cpp)
 TARGET = decide
-OBJECTS = $(addprefix build/,$(notdir $(SOURCES:.cpp=.o)))
+OBJECTS = $(SOURCES:.cpp=.o)
 OPT = -O0
-BUILD_DIR = build
+
 
 $(info $(SOURCES))
 
@@ -17,19 +17,19 @@ else
 endif
 
 
-all: $(BUILD_DIR)/$(TARGET)
+# all: 
+# 	@mkdir -p build
+# 	$(CPPCC) $(CPP_FLAGS) $(SOURCES) -o build/
+all: build/$(TARGET)
 
-
-$(BUILD_DIR)/%.o: src/%.cpp Makefile | $(BUILD_DIR)
+build/%.o: src/%.cpp
+	@mkdir -p build
 	$(CPPCC) $(CPP_FLAGS) $(OPT) -c $< -o $@
 
-$(BUILD_DIR)/$(TARGET): $(OBJECTS) Makefile
+build/$(TARGET): $(OBJECTS)
+	@mkdir -p build
 	$(CPPCC) $(CPP_FLAGS) $(OPT) $(OBJECTS) -o $@
-
-$(BUILD_DIR):
-	@mkdir -p $@
-
 
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf build
