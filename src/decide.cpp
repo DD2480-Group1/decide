@@ -90,7 +90,30 @@ void Decide::Lic1() {}
 
 void Decide::Lic2() {}
 
-void Decide::Lic3() {}
+void Decide::Lic3() {
+
+  bool found_greater_area = false;
+
+  for (size_t i = 0; i < COORDINATES.size() - 2; ++i) {
+    COORDINATE c1 = COORDINATES[i];
+    COORDINATE c2 = COORDINATES[i + 1];
+    COORDINATE c3 = COORDINATES[i + 2];
+
+    // Formula from:
+    // https://www.cuemath.com/geometry/area-of-triangle-in-coordinate-geometry/
+    double area = 0.5 * fabs(c1.x * (c2.y - c3.y) + c2.x * (c3.y - c1.y) +
+                             c3.x * (c1.y - c2.y));
+
+    COMPTYPE comp = DOUBLECOMPARE(area, PARAMETERS.AREA1);
+
+    if (comp == GT) {
+      found_greater_area = true;
+      break;
+    }
+  }
+
+  CMV[3] = found_greater_area;
+}
 
 void Decide::Lic4() {}
 
