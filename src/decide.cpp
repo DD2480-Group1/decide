@@ -3,10 +3,8 @@
 #include <cstdio>
 
 COMPTYPE Decide::DOUBLECOMPARE(double a, double b) const {
-  if (fabs(a - b) < 0.000001)
-    return EQ;
-  if (a < b)
-    return LT;
+  if (fabs(a - b) < 0.000001) return EQ;
+  if (a < b) return LT;
   return GT;
 }
 
@@ -14,8 +12,11 @@ Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
                const PARAMETERS_T &PARAMETERS,
                const std::array<std::array<CONNECTORS, 15>, 15> &LCM,
                const std::array<bool, 15> &PUV)
-    : NUMPOINTS(NUMPOINTS), COORDINATES(POINTS), PARAMETERS(PARAMETERS),
-      LCM(LCM), PUV(PUV) {}
+    : NUMPOINTS(NUMPOINTS),
+      COORDINATES(POINTS),
+      PARAMETERS(PARAMETERS),
+      LCM(LCM),
+      PUV(PUV) {}
 
 void Decide::debugprint() const {
   printf("Coordinates (x, y):\n");
@@ -86,7 +87,33 @@ void Decide::debugprint() const {
 
 void Decide::Lic0() {}
 
-void Decide::Lic1() {}
+/**
+ * @brief There exists at least one set of three consecutive data points that
+ * cannot all be contained within or on a circle of radius RADIUS1.
+ *
+ */
+void Decide::Lic1() {
+  for (int i = 0; i < NUMPOINTS - 2; ++i) {
+    COORDINATE p1 = COORDINATES[i];
+    COORDINATE p2 = COORDINATES[i + 1];
+    COORDINATE p3 = COORDINATES[i + 2];
+
+    // find the size of the triangle
+    double a = sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+    double b = sqrt(pow(p2.x - p3.x, 2) + pow(p2.y - p3.y, 2));
+    double c = sqrt(pow(p3.x - p1.x, 2) + pow(p3.y - p1.y, 2));
+
+    double s = (a + b + c) / 2;
+    double area = sqrt(s * (s - a) * (s - b) * (s - c));  // Heron's formula
+
+    double r = (a * b * c) / (4 * area);  // radius of the circumcircle
+
+    if (DOUBLECOMPARE(r, PARAMETERS.RADIUS1) == GT) {
+      CMV[1] = true;
+      return;
+    }
+  }
+}
 
 void Decide::Lic2() {}
 
