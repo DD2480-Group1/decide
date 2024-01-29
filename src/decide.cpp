@@ -1,5 +1,14 @@
 #include "decide.h"
+#include <cmath>
 #include <cstdio>
+
+COMPTYPE Decide::DOUBLECOMPARE(double a, double b) const {
+  if (fabs(a - b) < 0.000001)
+    return EQ;
+  if (a < b)
+    return LT;
+  return GT;
+}
 
 Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
                const PARAMETERS_T &PARAMETERS,
