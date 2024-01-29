@@ -127,8 +127,10 @@ void Decide::Lic2() {
   // CONDITION: find three consecutive data points to form an angle with
   //            angle needs to be in range to enable LIC
   bool LIC_confirmed = false;
+  const double& EPSILON = Decide::PARAMETERS.EPSILON;
+
   // -2 to prevent index error
-  for (int i = 0; i < Decide::COORDINATES.size() - 2; ++i) {
+  for (int i = 0; i < Decide::NUMPOINTS - 2; ++i) {
     // create reference to coordinates, const to protect changes
     const COORDINATE& point1 = Decide::COORDINATES[i];
     const COORDINATE& point2 = Decide::COORDINATES[i + 1];
@@ -140,8 +142,9 @@ void Decide::Lic2() {
       continue;
     }
     // otherwise...
-    const double angle = COMPUTEANLGE(point1, point2, point3);
-    if (angle < (PI - Decide::PARAMETERS.EPSILON) || angle > (PI + Decide::PARAMETERS.EPSILON)) {
+    double angle = COMPUTEANLGE(point1, point2, point3);
+    // using DOUBLECOMPARE to check angle against pi - epsilon
+    if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT || DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
       // we found a valid angle! set corresponding CMV to true
       LIC_confirmed = true;
       break;
@@ -160,7 +163,31 @@ void Decide::Lic5() {}
 
 void Decide::Lic6() {}
 
-void Decide::Lic7() {}
+void Decide::Lic7() {
+  bool LIC_confirmed = false;
+  // create references
+  const int& NUMPOINTS = Decide::NUMPOINTS;
+  const int& K_PTS = Decide::PARAMETERS.K_PTS;
+
+  // condition not met when NUMPOINTS less than three
+  if (NUMPOINTS >= 3) {
+    // we need to check two data points seperated by K_PTS steps
+    // reduce number of points to explore to prevent index error
+    for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
+      // get the difference between current coordinate and coordinate K_PTS + 1 points ahead
+      double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+      double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+      double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+
+      if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
+        LIC_confirmed = true;
+      }
+    }
+  }
+
+  // set the corresponding Conditions Met Vector
+  Decide::CMV[7] = LIC_confirmed;
+}
 
 void Decide::Lic8() {}
 
