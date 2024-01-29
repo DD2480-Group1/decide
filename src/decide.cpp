@@ -186,7 +186,31 @@ void Decide::Lic9() {}
 
 void Decide::Lic10() {}
 
-void Decide::Lic11() {}
+/**
+ * @brief There exists at least one set of two data points, (X[i],Y[i]) and
+ * (X[j],Y[j]), separated by exactly G_PTS consecutive intervening points, such
+ * that X[j] - X[i] < 0. (where i < j ) The condition is not met when NUMPOINTS
+ * < 3. 1 ≤ G PTS ≤ NUMPOINTS−2
+ *
+ */
+void Decide::Lic11() {
+  if (NUMPOINTS < 3) {
+    CMV[11] = false;
+    return;
+  }
+
+  for (int i = 0; i < NUMPOINTS - PARAMETERS.G_PTS - 1; ++i) {
+    COORDINATE p1 = COORDINATES[i];
+    COORDINATE p2 = COORDINATES[i + PARAMETERS.G_PTS + 1];
+
+    if (DOUBLECOMPARE(p2.x - p1.x, 0) == LT) {
+      CMV[11] = true;
+      return;
+    }
+  }
+
+  CMV[11] = false;
+}
 
 void Decide::Lic12() {}
 
