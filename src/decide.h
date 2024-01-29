@@ -40,30 +40,50 @@ class Decide {
 private:
   // Inputs
   const int NUMPOINTS; // Number of planar data points.
-  const std::vector<COORDINATE> COORDINATES; // Array containing the coordinates of data points.
+  const std::vector<COORDINATE>
+      COORDINATES; // Array containing the coordinates of data points.
   const PARAMETERS_T PARAMETERS; // Struct holding the parameters for LICs.
-  const std::array<std::array<CONNECTORS, 15>, 15> LCM;  // Logical Connector Matrix. IMPORTANT! LCM[y][x] <-- y first then x.
+  const std::array<std::array<CONNECTORS, 15>, 15>
+      LCM; // Logical Connector Matrix. IMPORTANT! LCM[y][x] <-- y first then x.
   const std::array<bool, 15> PUV; // Preliminary unlocking vector.
 
   // Outputs
   bool LAUNCH;
   std::array<bool, 15> CMV; // Conditions Met Vector.
-  std::array<std::array<bool, 15>, 15> PUM; // Preliminary Unlocking Matrix. IMPORTANT! PUM[y][x] <-- y first then x.
+  std::array<std::array<bool, 15>, 15>
+      PUM; // Preliminary Unlocking Matrix. IMPORTANT! PUM[y][x] <-- y first
+           // then x.
   std::array<bool, 15> FUV; // Final Unlocking Vector.
 
   // Methods
   // Method for comparing doubles.
   COMPTYPE DOUBLECOMPARE(double A, double B) const;
-  
+
   // Step 2.1 from specification.
   void Calc_CMV();
-  
+
+  void Lic0();
+  void Lic1();
+  void Lic2();
+  void Lic3();
+  void Lic4();
+  void Lic5();
+  void Lic6();
+  void Lic7();
+  void Lic8();
+  void Lic9();
+  void Lic10();
+  void Lic11();
+  void Lic12();
+  void Lic13();
+  void Lic14();
+
   // Step 2.2 from specification.
   void Calc_PUM();
-  
+
   // Step 2.3 from specification.
   void Calc_FUV();
-  
+
   // 2.4 from specification.
   void Calc_LAUNCH();
 
@@ -78,8 +98,6 @@ public:
 
   // Debug function that prints all member variables to stdout.
   void debugprint() const;
-  
 };
 
 #endif
-
