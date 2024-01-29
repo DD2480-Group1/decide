@@ -1,11 +1,12 @@
 #include "decide.h"
-
 #include <cstdio>
 
 Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
-         const PARAMETERS_T &PARAMETERS,
-         const std::array<std::array<CONNECTORS, 15>, 15> &LCM,
-         const std::array<bool, 15> &PUV): NUMPOINTS(NUMPOINTS), COORDINATES(POINTS), PARAMETERS(PARAMETERS), LCM(LCM), PUV(PUV) {}
+               const PARAMETERS_T &PARAMETERS,
+               const std::array<std::array<CONNECTORS, 15>, 15> &LCM,
+               const std::array<bool, 15> &PUV)
+    : NUMPOINTS(NUMPOINTS), COORDINATES(POINTS), PARAMETERS(PARAMETERS),
+      LCM(LCM), PUV(PUV) {}
 
 void Decide::debugprint() const {
   printf("Coordinates (x, y):\n");
@@ -35,13 +36,14 @@ void Decide::debugprint() const {
   printf("\tRADIUS2: %f\n", PARAMETERS.RADIUS2);
   printf("\tAREA2: %f\n", PARAMETERS.AREA2);
 
-
   printf("\nLCM:\n");
 
   for (int y = 0; y < 15; ++y) {
     printf("\t");
     for (int x = 0; x < 15; ++x) {
-      printf("%s ", LCM[y][x] == NOTUSED ? "NOTUSED" : (LCM[y][x] == ANDD ? "ANDD   " : "ORR    "));
+      printf("%s ", LCM[y][x] == NOTUSED
+                        ? "NOTUSED"
+                        : (LCM[y][x] == ANDD ? "ANDD   " : "ORR    "));
     }
     printf("\n");
   }
@@ -51,7 +53,6 @@ void Decide::debugprint() const {
     printf("%s ", PUV[i] ? "true" : "false");
   }
 
-  
   printf("\nCMV:\n\t");
   for (int i = 0; i < 15; ++i) {
     printf("%s ", CMV[i] ? "true" : "false");
@@ -67,9 +68,39 @@ void Decide::debugprint() const {
   }
 
   printf("\nFUV:\n\t");
-  for(int i = 0; i < 15; ++i) {
+  for (int i = 0; i < 15; ++i) {
     printf("%s ", FUV[i] ? "true" : "false");
   }
 
   printf("\n\nLAUNCH:\n\t%s\n", LAUNCH ? "true" : "false");
 }
+
+void Decide::Lic0() {}
+
+void Decide::Lic1() {}
+
+void Decide::Lic2() {}
+
+void Decide::Lic3() {}
+
+void Decide::Lic4() {}
+
+void Decide::Lic5() {}
+
+void Decide::Lic6() {}
+
+void Decide::Lic7() {}
+
+void Decide::Lic8() {}
+
+void Decide::Lic9() {}
+
+void Decide::Lic10() {}
+
+void Decide::Lic11() {}
+
+void Decide::Lic12() {}
+
+void Decide::Lic13() {}
+
+void Decide::Lic14() {}
