@@ -1,4 +1,5 @@
 #include "decide.h"
+
 #include <cstdio>
 
 Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
