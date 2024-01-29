@@ -4,6 +4,8 @@
 #include <array>
 #include <vector>
 
+const double PI = 3.1415926535
+
 enum CONNECTORS { NOTUSED = 777, ORR, ANDD };
 
 // Less than, equal to, greater than
