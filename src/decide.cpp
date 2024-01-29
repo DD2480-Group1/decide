@@ -91,6 +91,7 @@ void Decide::Lic0() {}
  * @brief There exists at least one set of three consecutive data points that
  * cannot all be contained within or on a circle of radius RADIUS1.
  *
+ * https://artofproblemsolving.com/wiki/index.php/Circumradius
  */
 void Decide::Lic1() {
   for (int i = 0; i < NUMPOINTS - 2; ++i) {
@@ -123,7 +124,59 @@ void Decide::Lic4() {}
 
 void Decide::Lic5() {}
 
-void Decide::Lic6() {}
+/**
+ * @brief There exists at least one set of N_PTS consecutive data points such
+ * that at least one of the points lies a distance greater than DIST from the
+ * line joining the first and last of these N_PTS points. If the first and last
+ * points of these N_PTS are identical, then the calculated distance to compare
+ * with DIST will be the distance from the coincident point to all other points
+ * of the N_PTS consecutive points. The condition is not met when NUMPOINTS < 3.
+ *
+ */
+void Decide::Lic6() {
+  if (NUMPOINTS < 3) {
+    CMV[6] = false;
+    return;
+  }
+
+  for (int i = 0; i < NUMPOINTS - PARAMETERS.N_PTS + 1; ++i) {
+    COORDINATE p1 = COORDINATES[i];
+    COORDINATE p2 = COORDINATES[i + PARAMETERS.N_PTS - 1];
+
+    if (DOUBLECOMPARE(p1.x, p2.x) == EQ && DOUBLECOMPARE(p1.y, p2.y) == EQ) {
+      // p1 and p2 are the same point
+      for (int j = 0; j < NUMPOINTS; ++j) {
+        if (j == i) continue;
+
+        COORDINATE p3 = COORDINATES[j];
+
+        double distance = sqrt(pow(p3.x - p1.x, 2) + pow(p3.y - p1.y, 2));
+
+        if (DOUBLECOMPARE(distance, PARAMETERS.DIST) == GT) {
+          CMV[6] = true;
+          return;
+        }
+      }
+    } else {
+      // p1 and p2 are different points
+      for (int j = 0; j < NUMPOINTS; ++j) {
+        if (j == i || j == i + PARAMETERS.N_PTS - 1) continue;
+
+        COORDINATE p3 = COORDINATES[j];
+        // https://math.stackexchange.com/questions/2757318/distance-between-a-point-and-a-line-defined-by-2-points
+        double distance = fabs((p2.x - p1.x) * (p3.y - p1.y) -
+                               (p3.x - p1.x) * (p2.y - p1.y)) /
+                          sqrt(pow(p2.y - p1.y, 2) + pow(p2.x - p1.x, 2));
+
+        if (DOUBLECOMPARE(distance, PARAMETERS.DIST) == GT) {
+          CMV[6] = true;
+          return;
+        }
+      }
+    }
+  }
+  CMV[6] = false;
+}
 
 void Decide::Lic7() {}
 
