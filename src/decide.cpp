@@ -123,7 +123,47 @@ void Decide::Lic6() {}
 
 void Decide::Lic7() {}
 
-void Decide::Lic8() {}
+void Decide::Lic8() {
+
+  if (NUMPOINTS < 5) {
+    CMV[8] = false;
+    return;
+  }
+
+  bool found_larger_triangle = false;
+
+  auto dist_lambda = [](const COORDINATE &a, const COORDINATE &b) -> double {
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+  };
+
+  for (int i = 0; i < NUMPOINTS; ++i) {
+    if (i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2 >= NUMPOINTS) {
+      break;
+    }
+
+    COORDINATE c1 = COORDINATES[i];
+    COORDINATE c2 = COORDINATES[i + PARAMETERS.A_PTS + 1];
+    COORDINATE c3 = COORDINATES[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+
+    double a = dist_lambda(c1, c2);
+    double b = dist_lambda(c1, c3);
+    double c = dist_lambda(c2, c3);
+
+    // Based on this formula:
+    // https://mathworld.wolfram.com/Circumradius.html
+    double circumradius = (a * b * c) / sqrt((a + b + c) * (b + c - a) *
+                                             (c + a - b) * (a + b - c));
+
+    COMPTYPE comp = DOUBLECOMPARE(circumradius, PARAMETERS.RADIUS1);
+
+    if (comp == GT) {
+      found_larger_triangle = true;
+      break;
+    }
+  }
+
+  CMV[8] = found_larger_triangle;
+}
 
 void Decide::Lic9() {}
 
