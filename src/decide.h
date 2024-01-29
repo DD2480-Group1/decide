@@ -60,6 +60,10 @@ private:
   // Methods
   // Method for comparing doubles.
   COMPTYPE DOUBLECOMPARE(double A, double B) const;
+  // Method for calculating the angle formed by three points.
+  double COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3);
+  // Method for validating the points forming an angle
+  bool VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3);   
 
   // Step 2.1 from specification.
   void Calc_CMV();
