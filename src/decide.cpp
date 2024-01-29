@@ -175,12 +175,14 @@ void Decide::Lic7() {
     // reduce number of points to explore to prevent index error
     for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
       // get the difference between current coordinate and coordinate K_PTS + 1 points ahead
+      // K_PTS + 1 because we want exactly K_PTS points BETWEEN, so K_PTS nodes between i and i + (K_PTS + 1)
       double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
       double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
       double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 
       if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
         LIC_confirmed = true;
+        break;
       }
     }
   }
@@ -197,7 +199,53 @@ void Decide::Lic10() {}
 
 void Decide::Lic11() {}
 
-void Decide::Lic12() {}
+void Decide::Lic12() {
+  // create flags for both conditions
+  bool condition1 = false;
+  bool condition2 = false;
+  // create references
+  const int& NUMPOINTS = Decide::NUMPOINTS;
+  const int& K_PTS = Decide::PARAMETERS.K_PTS;
+
+  // if numpoints < 3, stop!
+  if (NUMPOINTS < 3) {
+    Decide::CMV[7] = false;
+    return;
+  }
+
+  // CODE REUSED FROM LIC7
+  for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
+    double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+    double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+    double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+
+    // check condition one
+    if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
+      condition1 = true;
+      break;
+    }
+  }
+
+  for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
+    double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+    double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+    double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+
+    // check condition two
+    if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH2) == LT) {
+      condition2 = true;
+      break;
+    }
+  }
+
+  // LIC is true only if both conditions are fulfilled
+  if (condition1 == true && condition2 == true) {
+    Decide::CMV[7] = true;
+  }
+  else {
+    Decide::CMV[7] = false;
+  }
+}
 
 void Decide::Lic13() {}
 
