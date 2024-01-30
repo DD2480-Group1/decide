@@ -74,17 +74,17 @@ class Decide {
   bool Lic1();
   bool Lic2();
   bool Lic3();
-  void Lic4();
+  bool Lic4();
   void Lic5();
   bool Lic6();
   bool Lic7();
   bool Lic8();
-  void Lic9();
+  bool Lic9();
   void Lic10();
   bool Lic11();
   bool Lic12();
   bool Lic13();
-  void Lic14();
+  bool Lic14();
 
   // Step 2.2 from specification.
   void Calc_PUM();
