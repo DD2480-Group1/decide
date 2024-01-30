@@ -34,3 +34,9 @@
 # build
 build/
 compile_commands.json
+
+# MaxOX
+**/.DS_Store
+
+# vscode
+.vscode/
