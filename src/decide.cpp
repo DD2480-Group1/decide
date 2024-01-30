@@ -93,7 +93,7 @@ void Decide::Lic0() {}
  *
  * https://artofproblemsolving.com/wiki/index.php/Circumradius
  */
-void Decide::Lic1() {
+bool Decide::Lic1() {
   for (int i = 0; i < NUMPOINTS - 2; ++i) {
     COORDINATE p1 = COORDINATES[i];
     COORDINATE p2 = COORDINATES[i + 1];
@@ -110,10 +110,10 @@ void Decide::Lic1() {
     double r = (a * b * c) / (4 * area);  // radius of the circumcircle
 
     if (DOUBLECOMPARE(r, PARAMETERS.RADIUS1) == GT) {
-      CMV[1] = true;
-      return;
+      return true;
     }
   }
+  return false;
 }
 
 void Decide::Lic2() {}
@@ -133,10 +133,9 @@ void Decide::Lic5() {}
  * of the N_PTS consecutive points. The condition is not met when NUMPOINTS < 3.
  *
  */
-void Decide::Lic6() {
+bool Decide::Lic6() {
   if (NUMPOINTS < 3) {
-    CMV[6] = false;
-    return;
+    return false;
   }
 
   for (int i = 0; i < NUMPOINTS - PARAMETERS.N_PTS + 1; ++i) {
@@ -153,8 +152,7 @@ void Decide::Lic6() {
         double distance = sqrt(pow(p3.x - p1.x, 2) + pow(p3.y - p1.y, 2));
 
         if (DOUBLECOMPARE(distance, PARAMETERS.DIST) == GT) {
-          CMV[6] = true;
-          return;
+          return true;
         }
       }
     } else {
@@ -169,13 +167,12 @@ void Decide::Lic6() {
                           sqrt(pow(p2.y - p1.y, 2) + pow(p2.x - p1.x, 2));
 
         if (DOUBLECOMPARE(distance, PARAMETERS.DIST) == GT) {
-          CMV[6] = true;
-          return;
+          return true;
         }
       }
     }
   }
-  CMV[6] = false;
+  return false;
 }
 
 void Decide::Lic7() {}
@@ -193,10 +190,9 @@ void Decide::Lic10() {}
  * < 3. 1 ≤ G PTS ≤ NUMPOINTS−2
  *
  */
-void Decide::Lic11() {
+bool Decide::Lic11() {
   if (NUMPOINTS < 3) {
-    CMV[11] = false;
-    return;
+    return false;
   }
 
   for (int i = 0; i < NUMPOINTS - PARAMETERS.G_PTS - 1; ++i) {
@@ -205,11 +201,12 @@ void Decide::Lic11() {
 
     if (DOUBLECOMPARE(p2.x - p1.x, 0) == LT) {
       CMV[11] = true;
-      return;
+      return true;
     }
   }
 
   CMV[11] = false;
+  return false;
 }
 
 void Decide::Lic12() {}
