@@ -206,7 +206,24 @@ bool Decide::Lic3() {
   return found_greater_area;
 }
 
-void Decide::Lic4() {}
+bool Decide::Lic4() {if (NUMPOINTS<PARAMETERS.Q_PTS)return false;
+    for(int i = 0; i < NUMPOINTS-PARAMETERS.Q_PTS+1; i++) {
+        bool quadrants[4];
+        for(int k=0;k<4;k++) {quadrants[k]=false;}
+        int count=0; 
+        for(int j = 0; j < PARAMETERS.Q_PTS; j++ ) {
+                COORDINATE p = COORDINATES[i+j];
+                if(p.x >= 0) {
+                  if(p.y >= 0) {quadrants[0] = true;} 
+                  else {quadrants[3] = true;} }
+                else{ 
+                  if(p.y >= 0) {quadrants[1] = true;} 
+                  else {quadrants[2] = true;}}}
+        for(bool q : quadrants) {if(q) {count +=1;}}    
+        if (count>PARAMETERS.Q_PTS){ 
+            return true;}  }  
+        //CMV[4] = false; 
+    return false;   }
 
 void Decide::Lic5() {}
 
@@ -328,7 +345,29 @@ bool Decide::Lic8() {
   return found_larger_triangle;
 }
 
-void Decide::Lic9() {}
+bool Decide::Lic9() {
+   if (NUMPOINTS<5)return false;
+    std::vector<COORDINATE> a;
+    
+    int c;
+    for(int i = 0; i < NUMPOINTS-3; i++) {
+        c=0;
+        a.clear();
+
+        for(int j = 0; j < 5; j++){
+        if((i+j)!=PARAMETERS.C_PTS&&(i+j)!=PARAMETERS.D_PTS){
+        a.push_back(COORDINATES[i+j]);
+        c++;}
+        if(c=3&&(i+j)>=NUMPOINTS-1){c=500;break;}
+        if(c=3)break;}
+
+        double angle= acos(((a[0].x-a[1].x)*(a[2].x-a[1].x)+(a[0].y-a[1].y)*(a[2].y-a[1].y))/(sqrt((a[0].x-a[1].x)*(a[0].x-a[1].x)+(a[0].y-a[1].y)*(a[0].y-a[1].y))*sqrt((a[2].x-a[1].x)*(a[2].x-a[1].x)+(a[2].y-a[1].y)*(a[2].y-a[1].y))));
+        if(angle<3.1415926535-PARAMETERS.EPSILON||angle>3.1415926535+PARAMETERS.EPSILON){return true;}
+        if(c=500)break;
+}
+
+    //CMV[9] = false;
+    return false;      }
 
 void Decide::Lic10() {}
 
@@ -453,4 +492,23 @@ bool Decide::Lic13() {
   return found_smaller_triangle && found_larger_triangle;
 }
 
-void Decide::Lic14() {}
+bool Decide::Lic14() {if (NUMPOINTS<5) return false;
+    std::vector<COORDINATE> a;
+    
+    int c;
+    for(int i = 0; i < NUMPOINTS-3; i++) {
+        c=0;
+        a.clear();
+        for(int j = 0; j < 5; j++){
+        if((i+j)!=PARAMETERS.F_PTS&&(i+j)!=PARAMETERS.E_PTS){
+        a.push_back(COORDINATES[i+j]);
+        c++;}
+        if(c=3&&(i+j)>=NUMPOINTS-1){c=500;break;}
+        if(c=3)break;}
+        double area= (a[0].x*a[1].y+a[1].x*a[2].y+a[2].x*a[0].y-a[0].x*a[2].y-a[1].x*a[0].y-a[2].x*a[1].y)/2;
+        if(area<PARAMETERS.AREA2||area>PARAMETERS.AREA1){return true;}
+        if(c=500)break;
+}
+
+    //CMV[14] = false;
+    return false;}
