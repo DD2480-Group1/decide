@@ -120,7 +120,24 @@ void Decide::debugprint() const {
   printf("\n\nLAUNCH:\n\t%s\n", LAUNCH ? "true" : "false");
 }
 
-void Decide::Lic0() {}
+bool Decide::Lic0() {
+    // Iterate through consecutive pairs of points
+    for (int i = 0; i < NUMPOINTS - 1; ++i){
+
+      // Calculate the distance between consecutive points
+      double distance = sqrt(pow(COORDINATES[i + 1].x - COORDINATES[i].x, 2) +
+      pow(COORDINATES[i + 1].y - COORDINATES[i].y, 2));
+      
+      // Check if the distance is greater than LENGTH1
+      if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT){
+      // Set the corresponding CMV element to true
+       return true;
+      }
+    }
+
+      return false;
+  }
+  ;
 
 /**
  * @brief There exists at least one set of three consecutive data points that
@@ -208,7 +225,22 @@ bool Decide::Lic3() {
 
 void Decide::Lic4() {}
 
-void Decide::Lic5() {}
+bool Decide::Lic5() {
+
+  // Iterate through consecutive pairs of data points
+  for (int i = 0; i < NUMPOINTS - 1; i++) {
+    //// Check if X[j] - X[i] < 0
+    if (DOUBLECOMPARE(COORDINATES[i + 1].x - COORDINATES[i].x, 0) == LT){
+      
+      // The condition is met, set CMV[4] to true
+       return true;
+    
+    }
+
+  }
+
+      return false;
+}
 
 /**
  * @brief There exists at least one set of N_PTS consecutive data points such
@@ -330,7 +362,34 @@ bool Decide::Lic8() {
 
 void Decide::Lic9() {}
 
-void Decide::Lic10() {}
+bool Decide::Lic10() {
+
+  if (NUMPOINTS < 5) {
+    return  false;
+
+  }
+
+  for (int i = 0; i < NUMPOINTS - 2 - PARAMETERS.E_PTS - PARAMETERS.F_PTS; ++i){
+    for (int j = i + PARAMETERS.E_PTS + i; j < i + PARAMETERS.E_PTS + PARAMETERS.F_PTS + 2 && j < NUMPOINTS - 1; ++j) {
+      for (int k = j + PARAMETERS.F_PTS + 1; k < NUMPOINTS && k < j + PARAMETERS.F_PTS + 2; ++k) {
+        // Calculate the area of the triangle formed by points (i, j, k)
+                double area = 0.5 * fabs((COORDINATES[i].x * (COORDINATES[j].y - COORDINATES[k].y)) +
+                                         (COORDINATES[j].x * (COORDINATES[k].y - COORDINATES[i].y)) +
+                                         (COORDINATES[k].x * (COORDINATES[i].y - COORDINATES[j].y)));
+
+                
+                if (DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
+                  // Set CMV[9] to true if condition is met
+                    return true;
+                }
+          
+        }
+    }
+  
+  }
+
+    return false;
+}
 
 /**
  * @brief There exists at least one set of two data points, (X[i],Y[i]) and

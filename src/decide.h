@@ -3,9 +3,11 @@
 
 #include <array>
 #include <vector>
+
 //#include "gtest/gtest.h"
 
 const double PI = 3.1415926535;
+
 
 enum CONNECTORS { NOTUSED = 777, ORR, ANDD };
 
@@ -70,17 +72,19 @@ class Decide {
   // Step 2.1 from specification.
   void Calc_CMV();
 
-  void Lic0();
+
+
+  bool Lic0();
   bool Lic1();
   bool Lic2();
   bool Lic3();
   void Lic4();
-  void Lic5();
+  bool Lic5();
   bool Lic6();
   bool Lic7();
   bool Lic8();
   void Lic9();
-  void Lic10();
+  bool Lic10();
   bool Lic11();
   bool Lic12();
   bool Lic13();
