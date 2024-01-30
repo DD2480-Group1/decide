@@ -2,7 +2,6 @@
 #include "decide.h"
 
 int main() {
-  // std::cout << "Hello, World!" << std::endl;
-  Decide::DECIDE();
+  std::cout << "Hello, World!" << std::endl;
   return 0;
 }
