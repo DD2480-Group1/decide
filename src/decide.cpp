@@ -129,11 +129,9 @@ bool Decide::Lic0() {
       pow(COORDINATES[i + 1].y - COORDINATES[i].y, 2));
       
       // Check if the distance is greater than LENGTH1
-      if (distance > PARAMETERS.LENGTH1) {
-
+      if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT){
       // Set the corresponding CMV element to true
        return true;
-      
       }
     }
 
@@ -232,12 +230,11 @@ bool Decide::Lic5() {
   // Iterate through consecutive pairs of data points
   for (int i = 0; i < NUMPOINTS - 1; i++) {
     //// Check if X[j] - X[i] < 0
-    if (COORDINATES[i + 1].x - COORDINATES[i].x < 0){
+    if (DOUBLECOMPARE(COORDINATES[i + 1].x - COORDINATES[i].x, 0) == LT){
       
       // The condition is met, set CMV[4] to true
        return true;
     
-
     }
 
   }
@@ -380,7 +377,8 @@ bool Decide::Lic10() {
                                          (COORDINATES[j].x * (COORDINATES[k].y - COORDINATES[i].y)) +
                                          (COORDINATES[k].x * (COORDINATES[i].y - COORDINATES[j].y)));
 
-                if (area > PARAMETERS.AREA1) {
+                
+                if (DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
                   // Set CMV[9] to true if condition is met
                     return true;
                 }
