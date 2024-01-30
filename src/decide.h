@@ -3,6 +3,7 @@
 
 #include <array>
 #include <vector>
+#include <math.h>
 
 enum CONNECTORS { NOTUSED = 777, ORR, ANDD };
 
@@ -62,17 +63,17 @@ private:
   // Step 2.1 from specification.
   void Calc_CMV();
 
-  void Lic0();
+  bool Lic0();
   void Lic1();
   void Lic2();
   void Lic3();
   void Lic4();
-  void Lic5();
+  bool Lic5();
   void Lic6();
   void Lic7();
   void Lic8();
   void Lic9();
-  void Lic10();
+  bool Lic10();
   void Lic11();
   void Lic12();
   void Lic13();
