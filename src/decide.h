@@ -3,7 +3,9 @@
 
 #include <array>
 #include <vector>
-#include "gtest/gtest.h"
+//#include "gtest/gtest.h"
+
+const double PI = 3.1415926535;
 
 enum CONNECTORS { NOTUSED = 777, ORR, ANDD };
 
@@ -39,7 +41,6 @@ struct PARAMETERS_T {
 
 class Decide {
  private:
-  FRIEND_TEST(CMV, LIC11);
   // Inputs
   const int NUMPOINTS;  // Number of planar data points.
   const std::vector<COORDINATE>
@@ -61,23 +62,27 @@ class Decide {
   // Methods
   // Method for comparing doubles.
   COMPTYPE DOUBLECOMPARE(double A, double B) const;
+  // Method for calculating the angle formed by three points.
+  double COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3);
+  // Method for validating the points forming an angle
+  bool VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3);   
 
   // Step 2.1 from specification.
   void Calc_CMV();
 
   void Lic0();
   bool Lic1();
-  void Lic2();
+  bool Lic2();
   void Lic3();
   void Lic4();
   void Lic5();
   bool Lic6();
-  void Lic7();
+  bool Lic7();
   void Lic8();
   void Lic9();
   void Lic10();
   bool Lic11();
-  void Lic12();
+  bool Lic12();
   void Lic13();
   void Lic14();
 

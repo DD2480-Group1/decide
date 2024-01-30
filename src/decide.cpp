@@ -8,6 +8,41 @@ COMPTYPE Decide::DOUBLECOMPARE(double a, double b) const {
   return GT;
 }
 
+/// @brief Computes the angle (in degrees) between three points, where the second point is the vertex
+/// @param point1 first point
+/// @param point2 second point, the vertex
+/// @param point3 third point
+/// @return returns the angle (in degrees) created by the three points.
+double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3) {
+  // calculate vectors to form the angle
+  COORDINATE v1 = {point2.x - point1.x, point2.y - point1.y};
+  COORDINATE v2 = {point3.x - point2.x, point3.y - point2.y};
+
+  // using dot product formula to get the angle:
+  // calculate the vector multiplication
+  double dot_product = v1.x * v2.x + v1.y * v2.y;
+
+  // calcualte the vectors magnitude
+  double magnitude_v1 = std::sqrt(std::pow(v1.x, 2) + std::pow(v1.y, 2)); 
+  double magnitude_v2 = std::sqrt(std::pow(v2.x, 2) + std::pow(v2.y, 2)); 
+
+  // get the angle from the dot product formula
+  double angle = std::acos(dot_product / (magnitude_v1 * magnitude_v2));
+
+  // convert angle from radians to degrees
+  angle = angle * 180.0 / PI;
+  return angle;
+}
+
+/// @brief Validates that an angle can be made with the three points provided
+/// @param point1 first point
+/// @param point2 second point, the vertex
+/// @param point3 third point
+/// @return returns True if an angle can be made, returns False if an angle is undefined
+bool Decide::VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3) {
+  return ((point1.x == point2.x && point1.y == point2.y) || (point3.x == point2.x && point3.y == point2.y));
+}
+
 Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
                const PARAMETERS_T &PARAMETERS,
                const std::array<std::array<CONNECTORS, 15>, 15> &LCM,
@@ -116,7 +151,35 @@ bool Decide::Lic1() {
   return false;
 }
 
-void Decide::Lic2() {}
+bool Decide::Lic2() {
+  // CONDITION: find three consecutive data points to form an angle with
+  //            angle needs to be in range to enable LIC
+  const double& EPSILON = Decide::PARAMETERS.EPSILON;
+
+  // -2 to prevent index error
+  for (int i = 0; i < Decide::NUMPOINTS - 2; ++i) {
+    // create reference to coordinates, const to protect changes
+    const COORDINATE& point1 = Decide::COORDINATES[i];
+    const COORDINATE& point2 = Decide::COORDINATES[i + 1];
+    const COORDINATE& point3 = Decide::COORDINATES[i + 2];
+
+    // the second point is the "vertex", if any point coincides with it
+    // the angle is undefined, therfore is invalid
+    if (VALIDATEANGLE(point1, point2, point3) == false) {
+      continue;
+    }
+    // otherwise...
+    double angle = COMPUTEANLGE(point1, point2, point3);
+    // using DOUBLECOMPARE to check angle against pi - epsilon
+    if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT || DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
+      // we found a valid angle! set corresponding CMV to true
+      return true;
+    }
+  }
+
+  // set the corresponding Conditions Met Vector
+  return false;
+}
 
 void Decide::Lic3() {}
 
@@ -175,7 +238,31 @@ bool Decide::Lic6() {
   return false;
 }
 
-void Decide::Lic7() {}
+bool Decide::Lic7() {
+  // create references
+  const int& NUMPOINTS = Decide::NUMPOINTS;
+  const int& K_PTS = Decide::PARAMETERS.K_PTS;
+
+  // condition not met when NUMPOINTS less than three
+  if (NUMPOINTS >= 3) {
+    // we need to check two data points seperated by K_PTS steps
+    // reduce number of points to explore to prevent index error
+    for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
+      // get the difference between current coordinate and coordinate K_PTS + 1 points ahead
+      // K_PTS + 1 because we want exactly K_PTS points BETWEEN, so K_PTS nodes between i and i + (K_PTS + 1)
+      double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+      double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+      double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+
+      if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
+        return true;
+      }
+    }
+  }
+
+  // set the corresponding Conditions Met Vector
+  return false;
+}
 
 void Decide::Lic8() {}
 
@@ -207,7 +294,52 @@ bool Decide::Lic11() {
   return false;
 }
 
-void Decide::Lic12() {}
+bool Decide::Lic12() {
+  // create flags for both conditions
+  bool condition1 = false;
+  bool condition2 = false;
+  // create references
+  const int& NUMPOINTS = Decide::NUMPOINTS;
+  const int& K_PTS = Decide::PARAMETERS.K_PTS;
+
+  // if numpoints < 3, stop!
+  if (NUMPOINTS < 3) {
+    return false;
+  }
+
+  // CODE REUSED FROM LIC7
+  for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
+    double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+    double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+    double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+
+    // check condition one
+    if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
+      condition1 = true;
+      break;
+    }
+  }
+
+  for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
+    double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+    double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+    double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+
+    // check condition two
+    if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH2) == LT) {
+      condition2 = true;
+      break;
+    }
+  }
+
+  // LIC is true only if both conditions are fulfilled
+  if (condition1 == true && condition2 == true) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
 
 void Decide::Lic13() {}
 
