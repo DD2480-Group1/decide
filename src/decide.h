@@ -65,17 +65,17 @@ private:
   void Lic0();
   void Lic1();
   void Lic2();
-  void Lic3();
+  bool Lic3();
   void Lic4();
   void Lic5();
   void Lic6();
   void Lic7();
-  void Lic8();
+  bool Lic8();
   void Lic9();
   void Lic10();
   void Lic11();
   void Lic12();
-  void Lic13();
+  bool Lic13();
   void Lic14();
 
   // Step 2.2 from specification.

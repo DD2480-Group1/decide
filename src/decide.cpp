@@ -90,7 +90,7 @@ void Decide::Lic1() {}
 
 void Decide::Lic2() {}
 
-void Decide::Lic3() {
+bool Decide::Lic3() {
 
   bool found_greater_area = false;
 
@@ -112,7 +112,7 @@ void Decide::Lic3() {
     }
   }
 
-  CMV[3] = found_greater_area;
+  return found_greater_area;
 }
 
 void Decide::Lic4() {}
@@ -123,11 +123,10 @@ void Decide::Lic6() {}
 
 void Decide::Lic7() {}
 
-void Decide::Lic8() {
+bool Decide::Lic8() {
 
   if (NUMPOINTS < 5) {
-    CMV[8] = false;
-    return;
+    return false;
   }
 
   bool found_larger_triangle = false;
@@ -162,7 +161,7 @@ void Decide::Lic8() {
     }
   }
 
-  CMV[8] = found_larger_triangle;
+  return found_larger_triangle;
 }
 
 void Decide::Lic9() {}
@@ -173,11 +172,10 @@ void Decide::Lic11() {}
 
 void Decide::Lic12() {}
 
-void Decide::Lic13() {
+bool Decide::Lic13() {
 
   if (NUMPOINTS < 5) {
-    CMV[13] = false;
-    return;
+    return false;
   }
 
   bool found_larger_triangle = false;
@@ -221,7 +219,7 @@ void Decide::Lic13() {
     }
   }
 
-  CMV[13] = found_smaller_triangle && found_larger_triangle;
+  return found_smaller_triangle && found_larger_triangle;
 }
 
 void Decide::Lic14() {}
