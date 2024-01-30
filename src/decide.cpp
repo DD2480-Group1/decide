@@ -123,10 +123,9 @@ void Decide::Lic0() {}
 
 void Decide::Lic1() {}
 
-void Decide::Lic2() {
+bool Decide::Lic2() {
   // CONDITION: find three consecutive data points to form an angle with
   //            angle needs to be in range to enable LIC
-  bool LIC_confirmed = false;
   const double& EPSILON = Decide::PARAMETERS.EPSILON;
 
   // -2 to prevent index error
@@ -146,13 +145,12 @@ void Decide::Lic2() {
     // using DOUBLECOMPARE to check angle against pi - epsilon
     if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT || DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
       // we found a valid angle! set corresponding CMV to true
-      LIC_confirmed = true;
-      break;
+      return true;
     }
   }
 
   // set the corresponding Conditions Met Vector
-  Decide::CMV[2] = LIC_confirmed;
+  return false;
 }
 
 void Decide::Lic3() {}
@@ -163,8 +161,7 @@ void Decide::Lic5() {}
 
 void Decide::Lic6() {}
 
-void Decide::Lic7() {
-  bool LIC_confirmed = false;
+bool Decide::Lic7() {
   // create references
   const int& NUMPOINTS = Decide::NUMPOINTS;
   const int& K_PTS = Decide::PARAMETERS.K_PTS;
@@ -181,14 +178,13 @@ void Decide::Lic7() {
       double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 
       if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
-        LIC_confirmed = true;
-        break;
+        return true;
       }
     }
   }
 
   // set the corresponding Conditions Met Vector
-  Decide::CMV[7] = LIC_confirmed;
+  return false;
 }
 
 void Decide::Lic8() {}
@@ -199,7 +195,7 @@ void Decide::Lic10() {}
 
 void Decide::Lic11() {}
 
-void Decide::Lic12() {
+bool Decide::Lic12() {
   // create flags for both conditions
   bool condition1 = false;
   bool condition2 = false;
@@ -209,8 +205,7 @@ void Decide::Lic12() {
 
   // if numpoints < 3, stop!
   if (NUMPOINTS < 3) {
-    Decide::CMV[7] = false;
-    return;
+    return false;
   }
 
   // CODE REUSED FROM LIC7
@@ -240,10 +235,10 @@ void Decide::Lic12() {
 
   // LIC is true only if both conditions are fulfilled
   if (condition1 == true && condition2 == true) {
-    Decide::CMV[7] = true;
+    return true;
   }
   else {
-    Decide::CMV[7] = false;
+    return false;
   }
 }
 

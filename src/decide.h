@@ -70,17 +70,17 @@ private:
 
   void Lic0();
   void Lic1();
-  void Lic2();
+  bool Lic2();
   void Lic3();
   void Lic4();
   void Lic5();
   void Lic6();
-  void Lic7();
+  bool Lic7();
   void Lic8();
   void Lic9();
   void Lic10();
   void Lic11();
-  void Lic12();
+  bool Lic12();
   void Lic13();
   void Lic14();
 
