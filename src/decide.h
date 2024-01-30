@@ -3,7 +3,7 @@
 
 #include <array>
 #include <vector>
-//#include "gtest/gtest.h"
+// #include "gtest/gtest.h"
 
 const double PI = 3.1415926535;
 
@@ -63,9 +63,11 @@ class Decide {
   // Method for comparing doubles.
   COMPTYPE DOUBLECOMPARE(double A, double B) const;
   // Method for calculating the angle formed by three points.
-  double COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3);
+  double COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2,
+                      const COORDINATE& point3);
   // Method for validating the points forming an angle
-  bool VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3);   
+  bool VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2,
+                     const COORDINATE& point3);
 
   // Step 2.1 from specification.
   void Calc_CMV();
@@ -96,10 +98,10 @@ class Decide {
   void Calc_LAUNCH();
 
  public:
-  Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
-         const PARAMETERS_T &PARAMETERS,
-         const std::array<std::array<CONNECTORS, 15>, 15> &LCM,
-         const std::array<bool, 15> &PUV);
+  Decide(int NUMPOINTS, const std::vector<COORDINATE>& POINTS,
+         const PARAMETERS_T& PARAMETERS,
+         const std::array<std::array<CONNECTORS, 15>, 15>& LCM,
+         const std::array<bool, 15>& PUV);
 
   // Call functions for 2.1 - 2.4 and print answer to stdout.
   void decide();

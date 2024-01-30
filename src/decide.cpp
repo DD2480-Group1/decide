@@ -8,12 +8,14 @@ COMPTYPE Decide::DOUBLECOMPARE(double a, double b) const {
   return GT;
 }
 
-/// @brief Computes the angle (in degrees) between three points, where the second point is the vertex
+/// @brief Computes the angle (in degrees) between three points, where the
+/// second point is the vertex
 /// @param point1 first point
 /// @param point2 second point, the vertex
 /// @param point3 third point
 /// @return returns the angle (in degrees) created by the three points.
-double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3) {
+double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2,
+                            const COORDINATE& point3) {
   // calculate vectors to form the angle
   COORDINATE v1 = {point2.x - point1.x, point2.y - point1.y};
   COORDINATE v2 = {point3.x - point2.x, point3.y - point2.y};
@@ -23,8 +25,8 @@ double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, 
   double dot_product = v1.x * v2.x + v1.y * v2.y;
 
   // calcualte the vectors magnitude
-  double magnitude_v1 = std::sqrt(std::pow(v1.x, 2) + std::pow(v1.y, 2)); 
-  double magnitude_v2 = std::sqrt(std::pow(v2.x, 2) + std::pow(v2.y, 2)); 
+  double magnitude_v1 = std::sqrt(std::pow(v1.x, 2) + std::pow(v1.y, 2));
+  double magnitude_v2 = std::sqrt(std::pow(v2.x, 2) + std::pow(v2.y, 2));
 
   // get the angle from the dot product formula
   double angle = std::acos(dot_product / (magnitude_v1 * magnitude_v2));
@@ -38,15 +40,18 @@ double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2, 
 /// @param point1 first point
 /// @param point2 second point, the vertex
 /// @param point3 third point
-/// @return returns True if an angle can be made, returns False if an angle is undefined
-bool Decide::VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2, const COORDINATE& point3) {
-  return ((point1.x == point2.x && point1.y == point2.y) || (point3.x == point2.x && point3.y == point2.y));
+/// @return returns True if an angle can be made, returns False if an angle is
+/// undefined
+bool Decide::VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2,
+                           const COORDINATE& point3) {
+  return ((point1.x == point2.x && point1.y == point2.y) ||
+          (point3.x == point2.x && point3.y == point2.y));
 }
 
-Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE> &POINTS,
-               const PARAMETERS_T &PARAMETERS,
-               const std::array<std::array<CONNECTORS, 15>, 15> &LCM,
-               const std::array<bool, 15> &PUV)
+Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE>& POINTS,
+               const PARAMETERS_T& PARAMETERS,
+               const std::array<std::array<CONNECTORS, 15>, 15>& LCM,
+               const std::array<bool, 15>& PUV)
     : NUMPOINTS(NUMPOINTS),
       COORDINATES(POINTS),
       PARAMETERS(PARAMETERS),
@@ -171,7 +176,8 @@ bool Decide::Lic2() {
     // otherwise...
     double angle = COMPUTEANLGE(point1, point2, point3);
     // using DOUBLECOMPARE to check angle against pi - epsilon
-    if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT || DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
+    if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT ||
+         DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
       // we found a valid angle! set corresponding CMV to true
       return true;
     }
@@ -182,7 +188,6 @@ bool Decide::Lic2() {
 }
 
 bool Decide::Lic3() {
-
   bool found_greater_area = false;
 
   for (size_t i = 0; i < COORDINATES.size() - 2; ++i) {
@@ -206,24 +211,42 @@ bool Decide::Lic3() {
   return found_greater_area;
 }
 
-bool Decide::Lic4() {if (NUMPOINTS<PARAMETERS.Q_PTS)return false;
-    for(int i = 0; i < NUMPOINTS-PARAMETERS.Q_PTS+1; i++) {
-        bool quadrants[4];
-        for(int k=0;k<4;k++) {quadrants[k]=false;}
-        int count=0; 
-        for(int j = 0; j < PARAMETERS.Q_PTS; j++ ) {
-                COORDINATE p = COORDINATES[i+j];
-                if(p.x >= 0) {
-                  if(p.y >= 0) {quadrants[0] = true;} 
-                  else {quadrants[3] = true;} }
-                else{ 
-                  if(p.y >= 0) {quadrants[1] = true;} 
-                  else {quadrants[2] = true;}}}
-        for(bool q : quadrants) {if(q) {count +=1;}}    
-        if (count>PARAMETERS.Q_PTS){ 
-            return true;}  }  
-        //CMV[4] = false; 
-    return false;   }
+bool Decide::Lic4() {
+  if (NUMPOINTS < PARAMETERS.Q_PTS) return false;
+  for (int i = 0; i < NUMPOINTS - PARAMETERS.Q_PTS + 1; i++) {
+    bool quadrants[4];
+    for (int k = 0; k < 4; k++) {
+      quadrants[k] = false;
+    }
+    int count = 0;
+    for (int j = 0; j < PARAMETERS.Q_PTS; j++) {
+      COORDINATE p = COORDINATES[i + j];
+      if (p.x >= 0) {
+        if (p.y >= 0) {
+          quadrants[0] = true;
+        } else {
+          quadrants[3] = true;
+        }
+      } else {
+        if (p.y >= 0) {
+          quadrants[1] = true;
+        } else {
+          quadrants[2] = true;
+        }
+      }
+    }
+    for (bool q : quadrants) {
+      if (q) {
+        count += 1;
+      }
+    }
+    if (count > PARAMETERS.Q_PTS) {
+      return true;
+    }
+  }
+  // CMV[4] = false;
+  return false;
+}
 
 void Decide::Lic5() {}
 
@@ -288,10 +311,13 @@ bool Decide::Lic7() {
     // we need to check two data points seperated by K_PTS steps
     // reduce number of points to explore to prevent index error
     for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
-      // get the difference between current coordinate and coordinate K_PTS + 1 points ahead
-      // K_PTS + 1 because we want exactly K_PTS points BETWEEN, so K_PTS nodes between i and i + (K_PTS + 1)
-      double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
-      double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+      // get the difference between current coordinate and coordinate K_PTS + 1
+      // points ahead K_PTS + 1 because we want exactly K_PTS points BETWEEN, so
+      // K_PTS nodes between i and i + (K_PTS + 1)
+      double dx =
+          Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
+      double dy =
+          Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
       double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 
       if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
@@ -305,14 +331,13 @@ bool Decide::Lic7() {
 }
 
 bool Decide::Lic8() {
-
   if (NUMPOINTS < 5) {
     return false;
   }
 
   bool found_larger_triangle = false;
 
-  auto dist_lambda = [](const COORDINATE &a, const COORDINATE &b) -> double {
+  auto dist_lambda = [](const COORDINATE& a, const COORDINATE& b) -> double {
     return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
   };
 
@@ -346,28 +371,42 @@ bool Decide::Lic8() {
 }
 
 bool Decide::Lic9() {
-   if (NUMPOINTS<5)return false;
-    std::vector<COORDINATE> a;
-    
-    int c;
-    for(int i = 0; i < NUMPOINTS-3; i++) {
-        c=0;
-        a.clear();
+  if (NUMPOINTS < 5) return false;
+  std::vector<COORDINATE> a;
 
-        for(int j = 0; j < 5; j++){
-        if((i+j)!=PARAMETERS.C_PTS&&(i+j)!=PARAMETERS.D_PTS){
-        a.push_back(COORDINATES[i+j]);
-        c++;}
-        if(c==3&&(i+j)>=NUMPOINTS-1){c=500;break;}
-        if(c==3)break;}
+  int c;
+  for (int i = 0; i < NUMPOINTS - 3; i++) {
+    c = 0;
+    a.clear();
 
-        double angle= acos(((a[0].x-a[1].x)*(a[2].x-a[1].x)+(a[0].y-a[1].y)*(a[2].y-a[1].y))/(sqrt((a[0].x-a[1].x)*(a[0].x-a[1].x)+(a[0].y-a[1].y)*(a[0].y-a[1].y))*sqrt((a[2].x-a[1].x)*(a[2].x-a[1].x)+(a[2].y-a[1].y)*(a[2].y-a[1].y))));
-        if(angle<3.1415926535-PARAMETERS.EPSILON||angle>3.1415926535+PARAMETERS.EPSILON){return true;}
-        if(c==500)break;
+    for (int j = 0; j < 5; j++) {
+      if ((i + j) != PARAMETERS.C_PTS && (i + j) != PARAMETERS.D_PTS) {
+        a.push_back(COORDINATES[i + j]);
+        c++;
+      }
+      if (c == 3 && (i + j) >= NUMPOINTS - 1) {
+        c = 500;
+        break;
+      }
+      if (c == 3) break;
+    }
+
+    double angle = acos(((a[0].x - a[1].x) * (a[2].x - a[1].x) +
+                         (a[0].y - a[1].y) * (a[2].y - a[1].y)) /
+                        (sqrt((a[0].x - a[1].x) * (a[0].x - a[1].x) +
+                              (a[0].y - a[1].y) * (a[0].y - a[1].y)) *
+                         sqrt((a[2].x - a[1].x) * (a[2].x - a[1].x) +
+                              (a[2].y - a[1].y) * (a[2].y - a[1].y))));
+    if (angle < 3.1415926535 - PARAMETERS.EPSILON ||
+        angle > 3.1415926535 + PARAMETERS.EPSILON) {
+      return true;
+    }
+    if (c == 500) break;
+  }
+
+  // CMV[9] = false;
+  return false;
 }
-
-    //CMV[9] = false;
-    return false;      }
 
 void Decide::Lic10() {}
 
@@ -436,14 +475,12 @@ bool Decide::Lic12() {
   // LIC is true only if both conditions are fulfilled
   if (condition1 == true && condition2 == true) {
     return true;
-  }
-  else {
+  } else {
     return false;
   }
 }
 
 bool Decide::Lic13() {
-
   if (NUMPOINTS < 5) {
     return false;
   }
@@ -451,7 +488,7 @@ bool Decide::Lic13() {
   bool found_larger_triangle = false;
   bool found_smaller_triangle = false;
 
-  auto dist_lambda = [](const COORDINATE &a, const COORDINATE &b) -> double {
+  auto dist_lambda = [](const COORDINATE& a, const COORDINATE& b) -> double {
     return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
   };
 
@@ -492,23 +529,34 @@ bool Decide::Lic13() {
   return found_smaller_triangle && found_larger_triangle;
 }
 
-bool Decide::Lic14() {if (NUMPOINTS<5) return false;
-    std::vector<COORDINATE> a;
-    
-    int c;
-    for(int i = 0; i < NUMPOINTS-3; i++) {
-        c=0;
-        a.clear();
-        for(int j = 0; j < 5; j++){
-        if((i+j)!=PARAMETERS.F_PTS&&(i+j)!=PARAMETERS.E_PTS){
-        a.push_back(COORDINATES[i+j]);
-        c++;}
-        if(c==3&&(i+j)>=NUMPOINTS-1){c=500;break;}
-        if(c==3)break;}
-        double area= (a[0].x*a[1].y+a[1].x*a[2].y+a[2].x*a[0].y-a[0].x*a[2].y-a[1].x*a[0].y-a[2].x*a[1].y)/2;
-        if(area<PARAMETERS.AREA2||area>PARAMETERS.AREA1){return true;}
-        if(c==500)break;
-}
+bool Decide::Lic14() {
+  if (NUMPOINTS < 5) return false;
+  std::vector<COORDINATE> a;
 
-    //CMV[14] = false;
-    return false;}
+  int c;
+  for (int i = 0; i < NUMPOINTS - 3; i++) {
+    c = 0;
+    a.clear();
+    for (int j = 0; j < 5; j++) {
+      if ((i + j) != PARAMETERS.F_PTS && (i + j) != PARAMETERS.E_PTS) {
+        a.push_back(COORDINATES[i + j]);
+        c++;
+      }
+      if (c == 3 && (i + j) >= NUMPOINTS - 1) {
+        c = 500;
+        break;
+      }
+      if (c == 3) break;
+    }
+    double area = (a[0].x * a[1].y + a[1].x * a[2].y + a[2].x * a[0].y -
+                   a[0].x * a[2].y - a[1].x * a[0].y - a[2].x * a[1].y) /
+                  2;
+    if (area < PARAMETERS.AREA2 || area > PARAMETERS.AREA1) {
+      return true;
+    }
+    if (c == 500) break;
+  }
+
+  // CMV[14] = false;
+  return false;
+}
