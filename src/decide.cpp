@@ -200,12 +200,10 @@ bool Decide::Lic11() {
     COORDINATE p2 = COORDINATES[i + PARAMETERS.G_PTS + 1];
 
     if (DOUBLECOMPARE(p2.x - p1.x, 0) == LT) {
-      CMV[11] = true;
       return true;
     }
   }
 
-  CMV[11] = false;
   return false;
 }
 
