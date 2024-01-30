@@ -11,6 +11,8 @@ file(GLOB TESTS "test/*.cpp")
 list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/googletest-src/googletest/include)
+
 
 include(FetchContent)
 FetchContent_Declare(
@@ -23,10 +25,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
-
 enable_testing()
 add_executable(decide ${SOURCES} src/main.cpp)
 add_executable(CMVTest ${TESTS} ${SOURCES})
-target_link_libraries(CMVTest gtest_main gmock_main)
+target_link_libraries(CMVTest GTest::gtest_main GTest::gmock_main)
 include(GoogleTest)
 gtest_discover_tests(CMVTest)
