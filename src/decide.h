@@ -70,21 +70,21 @@ class Decide {
   // Step 2.1 from specification.
   void Calc_CMV();
 
-  bool Lic0();
+  void Lic0();
   bool Lic1();
   bool Lic2();
-  bool Lic3();
-  bool Lic4();
-  bool Lic5();
+  void Lic3();
+  void Lic4();
+  void Lic5();
   bool Lic6();
   bool Lic7();
-  bool Lic8();
-  bool Lic9();
-  bool Lic10();
+  void Lic8();
+  void Lic9();
+  void Lic10();
   bool Lic11();
   bool Lic12();
-  bool Lic13();
-  bool Lic14();
+  void Lic13();
+  void Lic14();
 
   // Step 2.2 from specification.
   void Calc_PUM();
