@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.14)
 project(decide)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g")
 
 file(GLOB SOURCES "src/*.cpp")
+file(GLOB TESTS "test/*.cpp")
+
+list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -17,6 +23,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
-add_executable(decide ${SOURCES})
-target_link_libraries(decide gtest_main)
-add_test(NAME decide_test COMMAND decide)
+
+enable_testing()
+add_executable(decide ${SOURCES} src/main.cpp)
+add_executable(CMVTest ${TESTS} ${SOURCES})
+target_link_libraries(CMVTest gtest_main gmock_main)
+include(GoogleTest)
+gtest_discover_tests(CMVTest)
