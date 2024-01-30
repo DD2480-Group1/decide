@@ -358,12 +358,12 @@ bool Decide::Lic9() {
         if((i+j)!=PARAMETERS.C_PTS&&(i+j)!=PARAMETERS.D_PTS){
         a.push_back(COORDINATES[i+j]);
         c++;}
-        if(c=3&&(i+j)>=NUMPOINTS-1){c=500;break;}
-        if(c=3)break;}
+        if(c==3&&(i+j)>=NUMPOINTS-1){c=500;break;}
+        if(c==3)break;}
 
         double angle= acos(((a[0].x-a[1].x)*(a[2].x-a[1].x)+(a[0].y-a[1].y)*(a[2].y-a[1].y))/(sqrt((a[0].x-a[1].x)*(a[0].x-a[1].x)+(a[0].y-a[1].y)*(a[0].y-a[1].y))*sqrt((a[2].x-a[1].x)*(a[2].x-a[1].x)+(a[2].y-a[1].y)*(a[2].y-a[1].y))));
         if(angle<3.1415926535-PARAMETERS.EPSILON||angle>3.1415926535+PARAMETERS.EPSILON){return true;}
-        if(c=500)break;
+        if(c==500)break;
 }
 
     //CMV[9] = false;
@@ -503,11 +503,11 @@ bool Decide::Lic14() {if (NUMPOINTS<5) return false;
         if((i+j)!=PARAMETERS.F_PTS&&(i+j)!=PARAMETERS.E_PTS){
         a.push_back(COORDINATES[i+j]);
         c++;}
-        if(c=3&&(i+j)>=NUMPOINTS-1){c=500;break;}
-        if(c=3)break;}
+        if(c==3&&(i+j)>=NUMPOINTS-1){c=500;break;}
+        if(c==3)break;}
         double area= (a[0].x*a[1].y+a[1].x*a[2].y+a[2].x*a[0].y-a[0].x*a[2].y-a[1].x*a[0].y-a[2].x*a[1].y)/2;
         if(area<PARAMETERS.AREA2||area>PARAMETERS.AREA1){return true;}
-        if(c=500)break;
+        if(c==500)break;
 }
 
     //CMV[14] = false;
