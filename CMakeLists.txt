@@ -11,6 +11,7 @@ file(GLOB TESTS "test/*.cpp")
 list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/test)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/build/_deps/googletest-src/googletest/include)
 
 

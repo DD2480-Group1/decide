@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 #include "gtest/gtest.h"
+#include "CMVTest.h"
 
 const double PI = 3.1415926535;
 
@@ -40,7 +41,7 @@ struct PARAMETERS_T {
 };
 
 class Decide {
-  FRIEND_TEST(CMV, LIC11);
+  FRIEND_TEST_SUITE_CMV();
 
  private:
   // Inputs
