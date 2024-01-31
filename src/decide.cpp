@@ -41,17 +41,6 @@ double Decide::COMPUTEANLGE(const COORDINATE &point1, const COORDINATE &point2,
   return angle;
 }
 
-void Decide::Calc_FUV() {
-  bool a;
-  for (int j = 0; j < 15; j++) {
-    a = PUM[0][j];
-    for (int i = 1; i < 15; i++) {
-      a &= PUM[i][j];
-    }
-    FUV[j] = (!PUV[j]) || a;
-  }
-};
-
 /// @brief Validates that an angle can be made with the three points provided
 /// @param point1 first point
 /// @param point2 second point, the vertex
@@ -471,31 +460,26 @@ bool Decide::Lic9() {
 
 bool Decide::Lic10() {
   if (NUMPOINTS < 5) {
-    return false;
+    return  false;
   }
 
-  for (int i = 0; i < NUMPOINTS - 2 - PARAMETERS.E_PTS - PARAMETERS.F_PTS;
-       ++i) {
-    for (int j = i + PARAMETERS.E_PTS + i;
-         j < i + PARAMETERS.E_PTS + PARAMETERS.F_PTS + 2 && j < NUMPOINTS - 1;
-         ++j) {
-      for (int k = j + PARAMETERS.F_PTS + 1;
-           k < NUMPOINTS && k < j + PARAMETERS.F_PTS + 2; ++k) {
-        // Calculate the area of the triangle formed by points (i, j, k)
-        double area =
-            0.5 *
-            fabs((COORDINATES[i].x * (COORDINATES[j].y - COORDINATES[k].y)) +
-                 (COORDINATES[j].x * (COORDINATES[k].y - COORDINATES[i].y)) +
-                 (COORDINATES[k].x * (COORDINATES[i].y - COORDINATES[j].y)));
+  for (int i = 0; i < NUMPOINTS; ++i) {
 
-        if (DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
-          // Set CMV[9] to true if condition is met
-          return true;
-        }
-      }
+    if (i + PARAMETERS.E_PTS + PARAMETERS.F_PTS + 2 >= NUMPOINTS) {
+      break;
+    }
+
+    COORDINATE c1 = COORDINATES[i];
+    COORDINATE c2 = COORDINATES[i + PARAMETERS.E_PTS + 1];
+    COORDINATE c3 = COORDINATES[i + PARAMETERS.E_PTS + PARAMETERS.F_PTS + 2];
+
+    // Calculate the area of the triangle formed by points (i, j, k)
+    double area = 0.5 * fabs(c1.x * (c2.y - c3.y) + c2.x * (c3.y - c1.y) + c3.x * (c1.y - c2.y));
+    if (DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
+      // Set CMV[9] to true if condition is met
+      return true;
     }
   }
-
   return false;
 }
 
@@ -664,6 +648,17 @@ void Decide::Calc_PUM() {
     }
   }
 }
+
+void Decide::Calc_FUV() {
+  bool a;
+  for (int j = 0; j < 15; j++) {
+    a = PUM[0][j];
+    for (int i = 1; i < 15; i++) {
+      a &= PUM[i][j];
+    }
+    FUV[j] = (!PUV[j]) || a;
+  }
+};
 
 void Decide::decide() {
   Calc_CMV();
