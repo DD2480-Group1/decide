@@ -635,3 +635,28 @@ bool Decide::Lic14() {
   // CMV[14] = false;
   return false;
 }
+
+void Decide::Calc_PUM() {
+  for(int x = 0; x < 15; ++x) {
+    for(int y = 0; y < 15; ++y) {
+      if(x == y) {
+        continue;
+      }      
+      
+      switch (LCM[y][x]) {
+      case ANDD:
+        PUM[y][x] = CMV[y] && CMV[x];
+        break;
+
+      case ORR:
+        PUM[y][x] = CMV[y] || CMV[x];
+        break;
+
+      default: // NOTUSED
+        PUM[y][x] = true;
+        break;
+      }
+    }
+  }
+
+}
