@@ -264,3 +264,28 @@ TEST(CMV, LIC13_NEGATIVE) {
     EXPECT_EQ(d.Lic8(), false);
 }
 
+TEST(CMV, LIC13_BOUNDRARY) {
+    // triangle {0,0},{0,100},{100,0} CANT fit in circle with radius 1  
+    // triangle {0,0},{0,1},{1,0} fits ON the boundrary of a circle wwith radius
+    // 0.5 * sqrt(2)
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,100}, {0,1}, {0,0}, {100,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 1.0;
+    parameters.RADIUS2 = 0.5 * sqrt(2);
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), true);
+}
+
