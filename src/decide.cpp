@@ -607,7 +607,7 @@ bool Decide::Lic14() {
     return false;
   std::vector<COORDINATE> a;
 
-  for (int i = 0; i < NUMPOINTS - 2 - PARAMETERS.C_PTS - PARAMETERS.D_PTS;
+  for (int i = 0; i < NUMPOINTS - 2 - PARAMETERS.E_PTS - PARAMETERS.F_PTS;
        i++) {
     a.clear();
     a.push_back(COORDINATES[i]);
@@ -621,7 +621,6 @@ bool Decide::Lic14() {
     }
   }
 
-  // CMV[14] = false;
   return false;
 }
 

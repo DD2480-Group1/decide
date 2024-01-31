@@ -706,7 +706,6 @@ TEST(CMV, LIC13_BOUNDRARY) {
   EXPECT_EQ(d.Lic13(), true);
 }
 
-/*
 TEST(CMV, LIC14_POSITIVE) {
   std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0}};
 
@@ -723,7 +722,7 @@ TEST(CMV, LIC14_POSITIVE) {
 
   EXPECT_EQ(decide.Lic14(), true);
 }
-*/
+
 TEST(CMV, LIC14_NEGATIVE){
   std::vector<COORDINATE> points = { {0,0},{0,4},{4,4},{4,0},{1,0}};
 
