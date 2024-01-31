@@ -3,11 +3,9 @@
 
 #include <array>
 #include <vector>
-// #include "gtest/gtest.h"
-
+#include "gtest/gtest.h"
 
 const double PI = 3.1415926535;
-
 
 enum CONNECTORS { NOTUSED = 777, ORR, ANDD };
 
@@ -42,6 +40,8 @@ struct PARAMETERS_T {
 };
 
 class Decide {
+  FRIEND_TEST(CMV, LIC11);
+
  private:
   // Inputs
   const int NUMPOINTS;  // Number of planar data points.
@@ -73,8 +73,6 @@ class Decide {
 
   // Step 2.1 from specification.
   void Calc_CMV();
-
-
 
   bool Lic0();
   bool Lic1();
