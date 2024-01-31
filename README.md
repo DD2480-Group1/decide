@@ -1,5 +1,43 @@
 # decide
 
+## To Build
+
+To build with `make`
+
+```bash
+make
+```
+
+To build with `cmake`
+
+```bash
+mkdir build && cd build
+cmake ..
+make
+```
+
+## Run and Test
+
+To run the program
+
+```bash
+cd build
+```
+
+```bash
+./decide
+```
+
+To run the tests
+
+```bash
+cd build
+```
+
+```bash
+./CMVTest
+```
+
 ## TODO
 
 ### Compulsory

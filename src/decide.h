@@ -3,7 +3,7 @@
 
 #include <array>
 #include <vector>
-//#include "gtest/gtest.h"
+#include "gtest/gtest.h"
 
 const double PI = 3.1415926535;
 
@@ -40,6 +40,8 @@ struct PARAMETERS_T {
 };
 
 class Decide {
+  FRIEND_TEST(CMV, LIC11);
+
  private:
   // Inputs
   const int NUMPOINTS;  // Number of planar data points.
