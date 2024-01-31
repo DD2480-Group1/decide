@@ -18,8 +18,8 @@ COMPTYPE Decide::DOUBLECOMPARE(double a, double b) const {
 double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2,
                             const COORDINATE& point3) {
   // calculate vectors to form the angle
-  COORDINATE v1 = {point2.x - point1.x, point2.y - point1.y};
-  COORDINATE v2 = {point3.x - point2.x, point3.y - point2.y};
+  COORDINATE v1 = {point1.x - point2.x, point1.y - point2.y}; // vector from p2 to p1
+  COORDINATE v2 = {point3.x - point2.x, point3.y - point2.y}; // vector from p2 to p3
 
   // using dot product formula to get the angle:
   // calculate the vector multiplication
@@ -45,8 +45,11 @@ double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2,
 /// undefined
 bool Decide::VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2,
                            const COORDINATE& point3) {
-  return ((point1.x == point2.x && point1.y == point2.y) ||
-          (point3.x == point2.x && point3.y == point2.y));
+  //return ((point1.x == point2.x && point1.y == point2.y) ||
+  //        (point3.x == point2.x && point3.y == point2.y));
+
+  return ((point1.x != point2.x || point1.y != point2.y) &&
+          (point3.x != point2.x || point3.y != point2.y));
 }
 
 Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE>& POINTS,
