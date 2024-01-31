@@ -22,9 +22,18 @@ TEST(CMV, LIC1) {
   Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
 
   EXPECT_EQ(decideN.Lic1(), false);
+
+  std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}};
+  PARAMETERS_T paramB;
+  paramB.RADIUS1 = 5.0;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcmB;
+  std::array<bool, 15> puvB;
+
+  Decide decideB(pointsB.size(), pointsB, paramB, lcmB, puvB);
+
+  EXPECT_EQ(decideB.Lic1(), false);
 }
 
-TEST(CMV, LIC6) {
-   
-}
+TEST(CMV, LIC6) {}
 TEST(CMV, LIC11) {}
