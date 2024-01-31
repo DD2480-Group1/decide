@@ -41,6 +41,7 @@ struct PARAMETERS_T {
 
 class Decide {
   FRIEND_TEST(CMV, LIC11);
+  FRIEND_TEST(CMV, LIC3_POSITIVE);
 
  private:
   // Inputs
