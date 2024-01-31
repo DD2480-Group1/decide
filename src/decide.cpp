@@ -664,3 +664,23 @@ void Decide::Calc_PUM() {
     }
   }
 }
+
+void Decide::decide() {
+  Calc_CMV();
+  Calc_PUM();
+  Calc_FUV();
+  Calc_LAUNCH();
+  if (LAUNCH) {
+    std::cout << "YES" << std::endl;
+  } else {
+    std::cout << "NO" << std::endl;
+  }
+  // debugprint();
+}
+
+void Decide::Calc_LAUNCH() {
+  LAUNCH = true;
+  for (int i = 0; i < 15; ++i) {
+    LAUNCH = LAUNCH && FUV[i];
+  }
+}
