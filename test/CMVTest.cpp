@@ -8,70 +8,32 @@ TEST(BasicTest, BasicAssertions) {
   EXPECT_EQ(1, 2);
 }
 
-TEST(CMV, LIC11) {
-  std::vector<COORDINATE> points = {
-      {0, 0},   {1, 1},   {2, 2},   {3, 3},   {4, 4},
-      {5, 5},   {6, 6},   {7, 7},   {8, 8},   {-1, -2},
-      {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14},
-  };
 
-  PARAMETERS_T parameters = {
-      0,  // LENGTH1
-      0,  // RADIUS1
-      0,  // EPSILON
-      0,  // AREA1
-      0,  // Q_PTS
-      0,  // QUADS
-      0,  // DIST
-      0,  // N_PTS
-      0,  // K_PTS
-      0,  // A_PTS
-      0,  // B_PTS
-      0,  // C_PTS
-      0,  // D_PTS
-      0,  // E_PTS
-      0,  // F_PTS
-      1,  // G_PTS
-      0,  // LENGTH2
-      0,  // RADIUS2
-      0,  // AREA2
-  };
+TEST(CMV, LIC4_Negative) {
+  std::vector<COORDINATE> points = {{0,0},{1,1},{2,2}};
+
+  PARAMETERS_T parameters;
+  parameters.Q_PTS = 3;
+  parameters.QUADS = 1; // 0.1 and 5.1 >= 5
+  
 
   std::array<std::array<CONNECTORS, 15>, 15> lcm;
 
   std::array<bool, 15> puv = {0};
 
-  Decide decide(points.size(), points, parameters, lcm, puv);
+  Decide decide2(points.size(), points, parameters, lcm, puv);
 
   // EXPECT_EQ(decide.Lic11(), false);
-  EXPECT_EQ(decide.Lic11(), true);
+  EXPECT_EQ(decide.Lic4(), false);}
 
-  std::vector<COORDINATE> points2 = {
-      {0, 0}, {1, 1}, {2, 2},   {3, 3},   {4, 4},   {5, 5},   {6, 6},   {7, 7},
-      {8, 8}, {9, 9}, {10, 10}, {11, 11}, {12, 12}, {13, 13}, {14, 14},
-  };
+ TEST(CMV, LIC4_Positive) {
 
-  PARAMETERS_T parameters2 = {
-      0,  // LENGTH1
-      0,  // RADIUS1
-      0,  // EPSILON
-      0,  // AREA1
-      0,  // Q_PTS
-      0,  // QUADS
-      0,  // DIST
-      0,  // N_PTS
-      0,  // K_PTS
-      0,  // A_PTS
-      0,  // B_PTS
-      0,  // C_PTS
-      0,  // D_PTS
-      0,  // E_PTS
-      0,  // F_PTS
-      1,  // G_PTS
-      0,  // LENGTH2
-      0,  // RADIUS2
-      0,  // AREA2
-  };
+
+  std::vector<COORDINATE> points2 = {{0, 0}, {-1, 1}, {-2, 2}};
+
+  PARAMETERS_T parameters;
+  parameters.Q_PTS = 3;
+  parameters.QUADS = 1; 
 
   std::array<std::array<CONNECTORS, 15>, 15> lcm2;
 
@@ -79,5 +41,73 @@ TEST(CMV, LIC11) {
 
   Decide decide2(points2.size(), points2, parameters2, lcm2, puv2);
 
-  EXPECT_EQ(decide2.Lic11(), false);
+  EXPECT_EQ(decide2.Lic4(), true);
+}
+TEST(CMV, LIC9_Positive) {
+  std::vector<COORDINATE> points = {{0,0},{0,1},{1,1},{1,0},{2,1}};
+
+  PARAMETERS_T parameters;
+  parameters.D_PTS = 1;
+  parameters.C_PTS = 1;
+  parameters.EPSILON = 2;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+
+  std::array<bool, 15> puv = {0};
+
+  Decide decide2(points.size(), points, parameters, lcm, puv);
+
+  // EXPECT_EQ(decide.Lic11(), false);
+  EXPECT_EQ(decide.Lic9(), true);
+}
+  TEST(CMV, LIC9_Negative) {
+
+  std::vector<COORDINATE> points2 = { {0,0},{0,1},{1,1},{1,0},{1,-1}};
+
+  PARAMETERS_T parameters;
+  parameters.D_PTS = 1;
+  parameters.C_PTS = 1;
+  parameters.EPSILON = 2;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm2;
+
+  std::array<bool, 15> puv2 = {0};
+
+  Decide decide2(points2.size(), points2, parameters2, lcm2, puv2);
+
+  EXPECT_EQ(decide2.Lic9(), false);
+}
+TEST(CMV, LIC14_Positive) {
+  std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0}};
+
+  PARAMETERS_T parameters;
+  parameters.E_PTS = 1;
+  parameters.F_PTS = 1;
+  parameters.AREA1= 8;
+  parameters.AREA2= 16;
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+
+  std::array<bool, 15> puv = {0};
+
+  Decide decide2(points.size(), points, parameters, lcm, puv);
+
+  // EXPECT_EQ(decide.Lic11(), false);
+  EXPECT_EQ(decide.Lic14(), true);
+}
+TEST(CMV,LIC14_Negative){
+  std::vector<COORDINATE> points2 = { {0,0},{0,4},{4,4},{4,0},{1,0}};
+
+  PARAMETERS_T parameters;
+  parameters.E_PTS = 1;
+  parameters.F_PTS = 1;
+  parameters.AREA1= 6;
+  parameters.AREA2= 16;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm2;
+
+  std::array<bool, 15> puv2 = {0};
+
+  Decide decide2(points2.size(), points2, parameters2, lcm2, puv2);
+
+  EXPECT_EQ(decide2.Lic14(), false);
 }

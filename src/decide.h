@@ -40,8 +40,12 @@ struct PARAMETERS_T {
 };
 
 class Decide {
-  FRIEND_TEST(CMV, LIC11);
-
+  FRIEND_TEST(CMV, LIC4_Positive);
+  FRIEND_TEST(CMV, LIC4_Negative);
+  FRIEND_TEST(CMV, LIC9_Positive);
+  FRIEND_TEST(CMV, LIC9_Negative);
+  FRIEND_TEST(CMV, LIC14_Positive);
+  FRIEND_TEST(CMV, LIC14_Negative);
  private:
   // Inputs
   const int NUMPOINTS;  // Number of planar data points.
