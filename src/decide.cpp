@@ -37,7 +37,7 @@ double Decide::COMPUTEANLGE(const COORDINATE &point1, const COORDINATE &point2,
   double angle = std::acos(dot_product / (magnitude_v1 * magnitude_v2));
 
   // convert angle from radians to degrees
-  angle = angle * 180.0 / PI;
+  // angle = angle * 180.0 / PI;
   return angle;
 }
 
@@ -259,6 +259,7 @@ bool Decide::Lic3() {
 bool Decide::Lic4() {
   if (NUMPOINTS < PARAMETERS.Q_PTS)
     return false;
+    
   for (int i = 0; i < NUMPOINTS - PARAMETERS.Q_PTS + 1; i++) {
     bool quadrants[4];
     for (int k = 0; k < 4; k++) {
@@ -433,28 +434,24 @@ bool Decide::Lic9() {
   if (NUMPOINTS < 5)
     return false;
   std::vector<COORDINATE> a;
-
   for (int i = 0; i < NUMPOINTS - 2 - PARAMETERS.C_PTS - PARAMETERS.D_PTS;
        i++) {
     a.clear();
     a.push_back(COORDINATES[i]);
     a.push_back(COORDINATES[i + PARAMETERS.C_PTS + 1]);
     a.push_back(COORDINATES[i + PARAMETERS.C_PTS + PARAMETERS.D_PTS + 2]);
-    if (VALIDATEANGLE(a[0], a[1], a[2]))
+
+    if (VALIDATEANGLE(a[0], a[1], a[2]) == false)
       continue;
-    double angle = acos(((a[0].x - a[1].x) * (a[2].x - a[1].x) +
-                         (a[0].y - a[1].y) * (a[2].y - a[1].y)) /
-                        (sqrt((a[0].x - a[1].x) * (a[0].x - a[1].x) +
-                              (a[0].y - a[1].y) * (a[0].y - a[1].y)) *
-                         sqrt((a[2].x - a[1].x) * (a[2].x - a[1].x) +
-                              (a[2].y - a[1].y) * (a[2].y - a[1].y))));
-    if (angle < 3.1415926535 - PARAMETERS.EPSILON ||
-        angle > 3.1415926535 + PARAMETERS.EPSILON) {
+
+    double angle = COMPUTEANLGE(a[0], a[1], a[2]);
+
+    if (DOUBLECOMPARE(angle, PI - PARAMETERS.EPSILON) == LT ||
+        DOUBLECOMPARE(angle, PI + PARAMETERS.EPSILON) == GT) {
       return true;
     }
   }
 
-  // CMV[9] = false;
   return false;
 }
 
@@ -616,7 +613,14 @@ bool Decide::Lic14() {
     double area = (a[0].x * a[1].y + a[1].x * a[2].y + a[2].x * a[0].y -
                    a[0].x * a[2].y - a[1].x * a[0].y - a[2].x * a[1].y) /
                   2;
+    /*
     if (area < PARAMETERS.AREA2 && area > PARAMETERS.AREA1) {
+      return true;
+    }
+    */
+    
+    if (DOUBLECOMPARE(area, PARAMETERS.AREA2) == LT &&
+        DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
       return true;
     }
   }
@@ -678,4 +682,3 @@ void Decide::Calc_LAUNCH() {
     LAUNCH = LAUNCH && FUV[i];
   }
 }
-
