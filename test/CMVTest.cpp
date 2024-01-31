@@ -171,7 +171,7 @@ TEST(CMV, lic5Neg) {
 TEST(CMV, lic10Pos) {
   // Define input points and parameters
   std::vector<COORDINATE> points = {
-      {0, 0}, {1, 0}, {0, 1}, {3, 3}, {4, 4}  // Ensure area of at least one triangle is greater than AREA1
+      {0, 0}, {1, 0}, {0, 20}, {3, 1}, {20, 0}  // Ensure area of at least one triangle is greater than AREA1
   };
 
   PARAMETERS_T parameters = {
@@ -188,8 +188,8 @@ TEST(CMV, lic10Pos) {
       0,  // B_PTS
       0,  // C_PTS
       0,  // D_PTS
-      0,  // E_PTS
-      0,  // F_PTS
+      1,  // E_PTS
+      1,  // F_PTS
       0,  // G_PTS
       0,  // LENGTH2
       0,  // RADIUS2
@@ -228,8 +228,8 @@ TEST(CMV, lic10Neg) {
       0,   // B_PTS
       0,   // C_PTS
       0,   // D_PTS
-      0,   // E_PTS
-      0,   // F_PTS
+      1,   // E_PTS
+      1,   // F_PTS
       0,   // G_PTS
       0,   // LENGTH2
       0,   // RADIUS2
