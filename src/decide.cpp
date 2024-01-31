@@ -323,7 +323,7 @@ bool Decide::Lic6() {
 
   for (int i = 0; i < NUMPOINTS - PARAMETERS.N_PTS + 1; ++i) {
     COORDINATE p1 = COORDINATES[i];
-    COORDINATE p2 = COORDINATES[i + PARAMETERS.N_PTS - 1];
+    COORDINATE p2 = COORDINATES[i + PARAMETERS.N_PTS];
 
     if (DOUBLECOMPARE(p1.x, p2.x) == EQ && DOUBLECOMPARE(p1.y, p2.y) == EQ) {
       // p1 and p2 are the same point
@@ -335,6 +335,7 @@ bool Decide::Lic6() {
         double distance = sqrt(pow(p3.x - p1.x, 2) + pow(p3.y - p1.y, 2));
 
         if (DOUBLECOMPARE(distance, PARAMETERS.DIST) == GT) {
+          std::cout << "dis" << distance << " " << PARAMETERS.DIST << std::endl;
           return true;
         }
       }
