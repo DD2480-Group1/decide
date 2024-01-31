@@ -704,13 +704,13 @@ TEST(CMV, LIC13_BOUNDRARY) {
 }
 
 TEST(CMV, LIC14_POSITIVE) {
-  std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0}};
+  std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0},{5,5}};
 
   PARAMETERS_T parameters;
   parameters.E_PTS = 1;
   parameters.F_PTS = 1;
-  parameters.AREA1= 8;
-  parameters.AREA2= 16;
+  parameters.AREA1 = 7;
+  parameters.AREA2 = 16;
 
   std::array<std::array<CONNECTORS, 15>, 15> lcm;
   std::array<bool, 15> puv;

@@ -605,6 +605,9 @@ bool Decide::Lic14() {
   if (NUMPOINTS < 5)
     return false;
   std::vector<COORDINATE> a;
+  // conditions can be fullfilled by multiple differentpoints in the array
+  bool area1_condition;
+  bool area2_condition;
 
   for (int i = 0; i < NUMPOINTS - 2 - PARAMETERS.E_PTS - PARAMETERS.F_PTS;
        i++) {
@@ -615,18 +618,20 @@ bool Decide::Lic14() {
     double area = (a[0].x * a[1].y + a[1].x * a[2].y + a[2].x * a[0].y -
                    a[0].x * a[2].y - a[1].x * a[0].y - a[2].x * a[1].y) /
                   2;
-    /*
-    if (area < PARAMETERS.AREA2 && area > PARAMETERS.AREA1) {
-      return true;
+
+    // check for area condition 1
+    if (DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
+      area1_condition = true;
     }
-    */
-    
-    if (DOUBLECOMPARE(area, PARAMETERS.AREA2) == LT &&
-        DOUBLECOMPARE(area, PARAMETERS.AREA1) == GT) {
+    // check for area condition 2
+    if (DOUBLECOMPARE(area, PARAMETERS.AREA2) == LT) {
+      area2_condition = true;
+    }
+    // if both have been fullfilled at some point, return true
+    if (area1_condition == true && area2_condition == true) {
       return true;
     }
   }
-
   return false;
 }
 
