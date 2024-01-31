@@ -126,24 +126,40 @@ void Decide::debugprint() const {
   printf("\n\nLAUNCH:\n\t%s\n", LAUNCH ? "true" : "false");
 }
 
+void Decide::Calc_CMV() {
+  Decide::CMV[0] = Lic0();
+  Decide::CMV[1] = Lic1();
+  Decide::CMV[2] = Lic2();
+  Decide::CMV[3] = Lic3();
+  Decide::CMV[4] = Lic4();
+  Decide::CMV[5] = Lic5();
+  Decide::CMV[6] = Lic6();
+  Decide::CMV[7] = Lic7();
+  Decide::CMV[8] = Lic8();
+  Decide::CMV[9] = Lic9();
+  Decide::CMV[10] = Lic10();
+  Decide::CMV[11] = Lic11();
+  Decide::CMV[12] = Lic12();
+  Decide::CMV[13] = Lic13();
+  Decide::CMV[14] = Lic14();
+}
+
 bool Decide::Lic0() {
-    // Iterate through consecutive pairs of points
-    for (int i = 0; i < NUMPOINTS - 1; ++i){
+  // Iterate through consecutive pairs of points
+  for (int i = 0; i < NUMPOINTS - 1; ++i){
 
-      // Calculate the distance between consecutive points
-      double distance = sqrt(pow(COORDINATES[i + 1].x - COORDINATES[i].x, 2) +
-      pow(COORDINATES[i + 1].y - COORDINATES[i].y, 2));
-      
-      // Check if the distance is greater than LENGTH1
-      if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT){
+    // Calculate the distance between consecutive points
+    double distance = sqrt(pow(COORDINATES[i + 1].x - COORDINATES[i].x, 2) +
+    pow(COORDINATES[i + 1].y - COORDINATES[i].y, 2));
+    
+    // Check if the distance is greater than LENGTH1
+    if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT){
       // Set the corresponding CMV element to true
-       return true;
-      }
+      return true;
     }
-
-      return false;
   }
-  ;
+  return false;
+}
 
 /**
  * @brief There exists at least one set of three consecutive data points that
