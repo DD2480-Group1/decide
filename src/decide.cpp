@@ -14,11 +14,12 @@ COMPTYPE Decide::DOUBLECOMPARE(double a, double b) const {
 /// @param point2 second point, the vertex
 /// @param point3 third point
 /// @return returns the angle (in degrees) created by the three points.
+
 double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2,
                             const COORDINATE& point3) {
   // calculate vectors to form the angle
-  COORDINATE v1 = {point2.x - point1.x, point2.y - point1.y};
-  COORDINATE v2 = {point3.x - point2.x, point3.y - point2.y};
+  COORDINATE v1 = {point1.x - point2.x, point1.y - point2.y}; // vector from p2 to p1
+  COORDINATE v2 = {point3.x - point2.x, point3.y - point2.y}; // vector from p2 to p3
 
   // using dot product formula to get the angle:
   // calculate the vector multiplication
@@ -44,8 +45,11 @@ double Decide::COMPUTEANLGE(const COORDINATE& point1, const COORDINATE& point2,
 /// undefined
 bool Decide::VALIDATEANGLE(const COORDINATE& point1, const COORDINATE& point2,
                            const COORDINATE& point3) {
-  return ((point1.x == point2.x && point1.y == point2.y) ||
-          (point3.x == point2.x && point3.y == point2.y));
+  //return ((point1.x == point2.x && point1.y == point2.y) ||
+  //        (point3.x == point2.x && point3.y == point2.y));
+
+  return ((point1.x != point2.x || point1.y != point2.y) &&
+          (point3.x != point2.x || point3.y != point2.y));
 }
 
 Decide::Decide(int NUMPOINTS, const std::vector<COORDINATE>& POINTS,
@@ -125,24 +129,40 @@ void Decide::debugprint() const {
   printf("\n\nLAUNCH:\n\t%s\n", LAUNCH ? "true" : "false");
 }
 
+void Decide::Calc_CMV() {
+  Decide::CMV[0] = Lic0();
+  Decide::CMV[1] = Lic1();
+  Decide::CMV[2] = Lic2();
+  Decide::CMV[3] = Lic3();
+  Decide::CMV[4] = Lic4();
+  Decide::CMV[5] = Lic5();
+  Decide::CMV[6] = Lic6();
+  Decide::CMV[7] = Lic7();
+  Decide::CMV[8] = Lic8();
+  Decide::CMV[9] = Lic9();
+  Decide::CMV[10] = Lic10();
+  Decide::CMV[11] = Lic11();
+  Decide::CMV[12] = Lic12();
+  Decide::CMV[13] = Lic13();
+  Decide::CMV[14] = Lic14();
+}
+
 bool Decide::Lic0() {
-    // Iterate through consecutive pairs of points
-    for (int i = 0; i < NUMPOINTS - 1; ++i){
+  // Iterate through consecutive pairs of points
+  for (int i = 0; i < NUMPOINTS - 1; ++i){
 
-      // Calculate the distance between consecutive points
-      double distance = sqrt(pow(COORDINATES[i + 1].x - COORDINATES[i].x, 2) +
-      pow(COORDINATES[i + 1].y - COORDINATES[i].y, 2));
-      
-      // Check if the distance is greater than LENGTH1
-      if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT){
+    // Calculate the distance between consecutive points
+    double distance = sqrt(pow(COORDINATES[i + 1].x - COORDINATES[i].x, 2) +
+    pow(COORDINATES[i + 1].y - COORDINATES[i].y, 2));
+    
+    // Check if the distance is greater than LENGTH1
+    if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT){
       // Set the corresponding CMV element to true
-       return true;
-      }
+      return true;
     }
-
-      return false;
   }
-  ;
+  return false;
+}
 
 /**
  * @brief There exists at least one set of three consecutive data points that
@@ -193,8 +213,7 @@ bool Decide::Lic2() {
     // otherwise...
     double angle = COMPUTEANLGE(point1, point2, point3);
     // using DOUBLECOMPARE to check angle against pi - epsilon
-    if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT ||
-         DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
+    if ((DOUBLECOMPARE(angle, PI - EPSILON) == LT || DOUBLECOMPARE(angle, PI + EPSILON) == GT)) {
       // we found a valid angle! set corresponding CMV to true
       return true;
     }
@@ -618,4 +637,29 @@ bool Decide::Lic14() {
 
   // CMV[14] = false;
   return false;
+}
+
+void Decide::Calc_PUM() {
+  for(int x = 0; x < 15; ++x) {
+    for(int y = 0; y < 15; ++y) {
+      if(x == y) {
+        continue;
+      }      
+      
+      switch (LCM[y][x]) {
+      case ANDD:
+        PUM[y][x] = CMV[y] && CMV[x];
+        break;
+
+      case ORR:
+        PUM[y][x] = CMV[y] || CMV[x];
+        break;
+
+      default: // NOTUSED
+        PUM[y][x] = true;
+        break;
+      }
+    }
+  }
+
 }
