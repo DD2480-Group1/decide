@@ -670,8 +670,6 @@ void Decide::Calc_PUM() {
   }
 }
 
-void Decide::Calc_FUV() {}
-
 void Decide::decide() {
   Calc_CMV();
   Calc_PUM();
