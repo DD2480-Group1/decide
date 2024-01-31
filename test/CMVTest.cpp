@@ -118,6 +118,29 @@ TEST(CMV, LIC8_NEGATIVE) {
     EXPECT_EQ(d.Lic8(), false);
 }
 
+TEST(CMV, LIC8_BOUNDRARY) {
+    // triangle {0,0},{0,1},{1,0} has a circumradius
+    // of (1/2)*sqrt(2)
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,1}, {0,0}, {0,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 0.5*sqrt(2.0);
+
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+ 
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    // the triangle should fit on the circle
+    EXPECT_EQ(d.Lic8(), false);
+}
+
 TEST(CMV, LIC11) {
   std::vector<COORDINATE> points = {
       {0, 0},   {1, 1},   {2, 2},   {3, 3},   {4, 4},
