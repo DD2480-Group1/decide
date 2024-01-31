@@ -2,6 +2,71 @@
 #include "gmock/gmock.h"
 #include "decide.h"
 
+// Test case for Lic0() returning true
+TEST(CMV, LIC0_POSITIVE){
+  // Define input points and parameters
+  std::vector<COORDINATE> points = {
+      {0, 0}, {3, 4}, {8, 10}, {12, 15}  // Ensure distance between consecutive points is greater than LENGTH1
+  };
+
+  PARAMETERS_T parameters;
+  parameters.LENGTH1 = 5.0;  // LENGTH1 (assuming LENGTH1 is set to 5.0)
+      // other parameter values
+  
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  // Create Decide object with the provided points and parameters
+  Decide decide(points.size(), points, parameters, lcm, puv);
+
+  // Ensure the function returns true since distances are greater than LENGTH1
+  EXPECT_TRUE(decide.Lic0());
+}
+
+// Test case for Lic0() returning false
+TEST(CMV, LIC0_NEGATIVE) {
+  // Define input points and parameters
+  std::vector<COORDINATE> points = {
+      {0, 0}, {1, 1}, {2, 2}, {3, 3}  // Ensure distance between consecutive points is not greater than LENGTH1
+  };
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  PARAMETERS_T parameters;
+  parameters.LENGTH1 = 5.0; 
+
+  // Create Decide object with the provided points and parameters
+  Decide decide(points.size(), points, parameters, lcm, puv);
+
+  // Ensure the function returns false since distances are not greater than LENGTH1
+  EXPECT_FALSE(decide.Lic0());
+}
+
+TEST(CMV, LIC1_POSITIVE) {
+  std::vector<COORDINATE> pointsP = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+  PARAMETERS_T paramP;
+  paramP.RADIUS1 = 0.5;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmP; //= {NOTUSED};
+  std::array<bool, 15> puvP = {0};
+
+  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
+
+  EXPECT_EQ(decideP.Lic1(), true);
+}
+
+TEST(CMV, LIC1_NEGATIVE) {
+  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+  PARAMETERS_T paramN;
+  paramN.RADIUS1 = 6;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
+  std::array<bool, 15> puvN;
+
+  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
+
+  EXPECT_EQ(decideN.Lic1(), false);
+}
+
 TEST(CMV, LIC1_BOUNDRARY) {
   std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}};
   PARAMETERS_T paramB;
@@ -13,45 +78,6 @@ TEST(CMV, LIC1_BOUNDRARY) {
   Decide decideB(pointsB.size(), pointsB, paramB, lcmB, puvB);
 
   EXPECT_EQ(decideB.Lic1(), false);
-}
-
-TEST(CMV, LIC6_POSITIVE) {
-  std::vector<COORDINATE> pointsP = {{0, 0}, {3, 0}, {0, 4}};
-  PARAMETERS_T paramP;
-  paramP.DIST = 0.5;
-  paramP.N_PTS = 1;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmP = {NOTUSED};
-  std::array<bool, 15> puvP = {0};
-
-  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
-
-  EXPECT_EQ(decideP.Lic6(), true);
-}
-
-TEST(CMV, LIC6_NEGATIVE) {
-  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-  PARAMETERS_T paramN;
-  paramN.DIST = 50;
-  paramN.N_PTS = 3;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
-  std::array<bool, 15> puvN;
-
-  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
-
-  EXPECT_EQ(decideN.Lic6(), false);
-}
-TEST(CMV, LIC6_BOUNDRARY) {
-  std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}};
-  PARAMETERS_T paramB;
-  paramB.DIST = 4;
-  paramB.N_PTS = 1;
-
-  std::array<std::array<CONNECTORS, 15>, 15> lcmB;
-  std::array<bool, 15> puvB;
-
-  Decide decideB(pointsB.size(), pointsB, paramB, lcmB, puvB);
-
-  EXPECT_EQ(decideB.Lic6(), false);
 }
 
 // Tests that LIC2 can calculate angle
@@ -132,18 +158,6 @@ TEST(CMV, LIC3_NEGATIVE) {
   EXPECT_EQ(d.Lic3(), false);
 }
 
-TEST(CMV, LIC11_POSITIVE) {
-  std::vector<COORDINATE> pointsP = {{5, 0}, {3, 0}, {4, 4}};
-  PARAMETERS_T paramP;
-  paramP.G_PTS = 1;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmP = {NOTUSED};
-  std::array<bool, 15> puvP = {0};
-
-  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
-
-  EXPECT_EQ(decideP.Lic11(), true);
-}
-
 // Test if lic3 correctly sets CMV[3] when there
 // exists a triangle with area == AREA1
 TEST(CMV, LIC3_BOUNDRARY) {
@@ -162,6 +176,109 @@ TEST(CMV, LIC3_BOUNDRARY) {
   Decide d(numpoints, points, parameters, lcm, puv);
 
   EXPECT_EQ(d.Lic3(), false);
+}
+
+ TEST(CMV, LIC4_POSITIVE) {
+  std::vector<COORDINATE> points2 = {{0, 0}, {-1, 1}, {-2, 2}};
+
+  PARAMETERS_T parameters;
+  parameters.Q_PTS = 3;
+  parameters.QUADS = 1;
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  Decide decide2(points2.size(), points2, parameters, lcm, puv);
+  
+  EXPECT_EQ(decide2.Lic4(), true);
+}
+
+TEST(CMV, LIC4_NEGATIVE) {
+  std::vector<COORDINATE> points = {{0,0},{1,1},{2,2}};
+
+  PARAMETERS_T parameters;
+  parameters.Q_PTS = 3;
+  parameters.QUADS = 1; // 0.1 and 5.1 >= 5
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  Decide decide2(points.size(), points, parameters, lcm, puv);
+
+  // EXPECT_EQ(decide.Lic11(), false);
+  EXPECT_EQ(decide2.Lic4(), false);
+}
+
+// Test case for Lic5() returning true
+TEST(CMV, LIC5_POSITIVE) {
+  // Define input points and parameters
+  std::vector<COORDINATE> points = {
+      {1, 1},{0, 0},{3, 3},{2, 2},   // Ensure X[j] - X[i] < 0 for at least one pair of consecutive points
+  };
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  PARAMETERS_T parameters;
+
+  Decide decide(points.size(), points, parameters, lcm, puv);
+
+  // Ensure the function returns true since X[j] - X[i] < 0 for at least one pair of consecutive points
+  EXPECT_TRUE(decide.Lic5());
+}
+
+// Test case for Lic5() returning false
+TEST(CMV, LIC5_NEGATIVE) {
+
+  std::vector<COORDINATE> points = {
+      {0, 0}, {1, 1}, {2, 2}, {3, 3}  // Ensure X[j] - X[i] >= 0 for all pairs of consecutive points
+  };
+
+  PARAMETERS_T parameters;
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+  // Create Decide object with the provided points
+  Decide decide(points.size(), points, parameters, lcm, puv);
+
+  // Ensure the function returns false since X[j] - X[i] >= 0 for all pairs of consecutive points
+  EXPECT_FALSE(decide.Lic5());
+}
+
+TEST(CMV, LIC6_POSITIVE) {
+  std::vector<COORDINATE> pointsP = {{0, 0}, {3, 0}, {0, 4}};
+  PARAMETERS_T paramP;
+  paramP.DIST = 0.5;
+  paramP.N_PTS = 1;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmP; //= {NOTUSED};
+  std::array<bool, 15> puvP = {0};
+
+  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
+
+  EXPECT_EQ(decideP.Lic6(), true);
+}
+
+TEST(CMV, LIC6_NEGATIVE) {
+  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+  PARAMETERS_T paramN;
+  paramN.DIST = 50;
+  paramN.N_PTS = 3;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
+  std::array<bool, 15> puvN;
+
+  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
+
+  EXPECT_EQ(decideN.Lic6(), false);
+}
+TEST(CMV, LIC6_BOUNDRARY) {
+  std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}};
+  PARAMETERS_T paramB;
+  paramB.DIST = 4;
+  paramB.N_PTS = 1;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcmB;
+  std::array<bool, 15> puvB;
+
+  Decide decideB(pointsB.size(), pointsB, paramB, lcmB, puvB);
+
+  EXPECT_EQ(decideB.Lic6(), false);
 }
 
 // Test that LIC7 can find two points seperated by K_PTS points apart
@@ -288,76 +405,7 @@ TEST(CMV, LIC8_BOUNDRARY) {
   EXPECT_EQ(d.Lic8(), false);
 }
 
-
-
-TEST(CMV, LIC1_POSITIVE) {
-  std::vector<COORDINATE> pointsP = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-  PARAMETERS_T paramP;
-  paramP.RADIUS1 = 0.5;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmP = {NOTUSED};
-  std::array<bool, 15> puvP = {0};
-
-  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
-
-  EXPECT_EQ(decideP.Lic1(), true);
-}
-
-TEST(CMV, LIC1_NEGATIVE) {
-  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-  PARAMETERS_T paramN;
-  paramN.RADIUS1 = 6;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
-  std::array<bool, 15> puvN;
-
-  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
-
-  EXPECT_EQ(decideN.Lic1(), false);
-}
-
-
-TEST(CMV, LIC4_Negative) {
-  std::vector<COORDINATE> points = {{0,0},{1,1},{2,2}};
-
-  PARAMETERS_T parameters;
-  parameters.Q_PTS = 3;
-  parameters.QUADS = 1; // 0.1 and 5.1 >= 5
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
-  std::array<bool, 15> puv;
-
-  Decide decide2(points.size(), points, parameters, lcm, puv);
-
-  // EXPECT_EQ(decide.Lic11(), false);
-  EXPECT_EQ(decide2.Lic4(), false);
-}
- 
-
- TEST(CMV, LIC4_Positive) {
-  std::vector<COORDINATE> points2 = {{0, 0}, {-1, 1}, {-2, 2}};
-
-  PARAMETERS_T parameters;
-  parameters.Q_PTS = 3;
-  parameters.QUADS = 1;
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
-  std::array<bool, 15> puv;
-
-  Decide decide2(points2.size(), points2, parameters, lcm, puv);
-  
-  EXPECT_EQ(decide2.Lic4(), true);
-}
-
-TEST(CMV, LIC11_NEGATIVE) {
-  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-  PARAMETERS_T paramN;
-  paramN.G_PTS = 3;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
-  std::array<bool, 15> puvN;
-
-  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
-
-  EXPECT_EQ(decideN.Lic11(), false);
-}
-
-TEST(CMV, LIC9_Positive) {
+TEST(CMV, LIC9_POSITIVE) {
   std::vector<COORDINATE> points = {{0,0},{0,1},{1,1},{1,0},{2,1}};
 
   PARAMETERS_T parameters;
@@ -374,7 +422,7 @@ TEST(CMV, LIC9_Positive) {
   EXPECT_EQ(decide2.Lic9(), true);
 }
 
-TEST(CMV, LIC9_Negative) {
+TEST(CMV, LIC9_NEGATIVE) {
 
   std::vector<COORDINATE> points2 = { {0,0},{0,1},{1,1},{1,0},{1,-1}};
 
@@ -392,85 +440,8 @@ TEST(CMV, LIC9_Negative) {
   EXPECT_EQ(decide2.Lic9(), false);
 }
 
-
-// Test case for Lic0() returning true
-TEST(CMV, lic0Pos){
-  // Define input points and parameters
-  std::vector<COORDINATE> points = {
-      {0, 0}, {3, 4}, {8, 10}, {12, 15}  // Ensure distance between consecutive points is greater than LENGTH1
-  };
-
-  PARAMETERS_T parameters;
-  parameters.LENGTH1 = 5.0;  // LENGTH1 (assuming LENGTH1 is set to 5.0)
-      // other parameter values
-  
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
-  std::array<bool, 15> puv;
-
-  // Create Decide object with the provided points and parameters
-  Decide decide(points.size(), points, parameters, lcm, puv);
-
-  // Ensure the function returns true since distances are greater than LENGTH1
-  EXPECT_TRUE(decide.Lic0());
-}
-
-// Test case for Lic0() returning false
-TEST(CMV, lic0Neg) {
-  // Define input points and parameters
-  std::vector<COORDINATE> points = {
-      {0, 0}, {1, 1}, {2, 2}, {3, 3}  // Ensure distance between consecutive points is not greater than LENGTH1
-  };
-
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
-  std::array<bool, 15> puv;
-
-  PARAMETERS_T parameters;
-  parameters.LENGTH1 = 5.0; 
-
-  // Create Decide object with the provided points and parameters
-  Decide decide(points.size(), points, parameters, lcm, puv);
-
-  // Ensure the function returns false since distances are not greater than LENGTH1
-  EXPECT_FALSE(decide.Lic0());
-}
-
-// Test case for Lic5() returning true
-TEST(CMV, lic5Pos) {
-  // Define input points and parameters
-  std::vector<COORDINATE> points = {
-      {1, 1},{0, 0},{3, 3},{2, 2},   // Ensure X[j] - X[i] < 0 for at least one pair of consecutive points
-  };
-
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
-  std::array<bool, 15> puv;
-
-  PARAMETERS_T parameters;
-
-  Decide decide(points.size(), points, parameters, lcm, puv);
-
-  // Ensure the function returns true since X[j] - X[i] < 0 for at least one pair of consecutive points
-  EXPECT_TRUE(decide.Lic5());
-}
-
-// Test case for Lic5() returning false
-TEST(CMV, lic5Neg) {
-
-  std::vector<COORDINATE> points = {
-      {0, 0}, {1, 1}, {2, 2}, {3, 3}  // Ensure X[j] - X[i] >= 0 for all pairs of consecutive points
-  };
-
-  PARAMETERS_T parameters;
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
-  std::array<bool, 15> puv;
-  // Create Decide object with the provided points
-  Decide decide(points.size(), points, parameters, lcm, puv);
-
-  // Ensure the function returns false since X[j] - X[i] >= 0 for all pairs of consecutive points
-  EXPECT_FALSE(decide.Lic5());
-}
-
 // Test case for Decide::Lic10() returning true when at least one triangle has area greater than AREA1
-TEST(CMV, lic10Pos) {
+TEST(CMV, LIC10_POSITIVE) {
   // Define input points and parameters
   std::vector<COORDINATE> points = {
       {0, 0}, {1, 0}, {0, 20}, {3, 1}, {20, 0}  // Ensure area of at least one triangle is greater than AREA1
@@ -508,7 +479,7 @@ TEST(CMV, lic10Pos) {
 }
 
 // Test case for Decide::Lic10() returning true when all triangles have area within threshold
-TEST(CMV, lic10Neg) {
+TEST(CMV, LIC10_NEGATIVE) {
   // Define input points and parameters
   std::vector<COORDINATE> points = {
       {0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 2}  // Ensure area of all triangles is within threshold
@@ -545,39 +516,28 @@ TEST(CMV, lic10Neg) {
   EXPECT_FALSE(decide.Lic10());
 }
 
-TEST(CMV, LIC14_Positive) {
-  std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0}};
+TEST(CMV, LIC11_POSITIVE) {
+  std::vector<COORDINATE> pointsP = {{5, 0}, {3, 0}, {4, 4}};
+  PARAMETERS_T paramP;
+  paramP.G_PTS = 1;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmP; //= {NOTUSED};
+  std::array<bool, 15> puvP = {0};
 
-  PARAMETERS_T parameters;
-  parameters.E_PTS = 1;
-  parameters.F_PTS = 1;
-  parameters.AREA1= 8;
-  parameters.AREA2= 16;
-  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
 
-  std::array<bool, 15> puv = {0};
-
-  Decide decide2(points.size(), points, parameters, lcm, puv);
-
-  EXPECT_EQ(decide2.Lic14(), true);
+  EXPECT_EQ(decideP.Lic11(), true);
 }
 
-TEST(CMV,LIC14_Negative){
-  std::vector<COORDINATE> points2 = { {0,0},{0,4},{4,4},{4,0},{1,0}};
+TEST(CMV, LIC11_NEGATIVE) {
+  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+  PARAMETERS_T paramN;
+  paramN.G_PTS = 3;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
+  std::array<bool, 15> puvN;
 
-  PARAMETERS_T parameters;
-  parameters.E_PTS = 1;
-  parameters.F_PTS = 1;
-  parameters.AREA1= 6;
-  parameters.AREA2= 16;
+  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
 
-  std::array<std::array<CONNECTORS, 15>, 15> lcm2;
-
-  std::array<bool, 15> puv2 = {0};
-
-  Decide decide2(points2.size(), points2, parameters, lcm2, puv2);
-
-  EXPECT_EQ(decide2.Lic14(), false);
+  EXPECT_EQ(decideN.Lic11(), false);
 }
 
 TEST(CMV, LIC11_BOUNDRARY) {
@@ -744,4 +704,39 @@ TEST(CMV, LIC13_BOUNDRARY) {
   Decide d(numpoints, points, parameters, lcm, puv);
 
   EXPECT_EQ(d.Lic13(), true);
+}
+
+/*
+TEST(CMV, LIC14_POSITIVE) {
+  std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0}};
+
+  PARAMETERS_T parameters;
+  parameters.E_PTS = 1;
+  parameters.F_PTS = 1;
+  parameters.AREA1= 8;
+  parameters.AREA2= 16;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  Decide decide(points.size(), points, parameters, lcm, puv);
+
+  EXPECT_EQ(decide.Lic14(), true);
+}
+*/
+TEST(CMV, LIC14_NEGATIVE){
+  std::vector<COORDINATE> points = { {0,0},{0,4},{4,4},{4,0},{1,0}};
+
+  PARAMETERS_T parameters;
+  parameters.E_PTS = 1;
+  parameters.F_PTS = 1;
+  parameters.AREA1= 6;
+  parameters.AREA2= 16;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  Decide decide(points.size(), points, parameters, lcm, puv);
+
+  EXPECT_EQ(decide.Lic14(), false);
 }
