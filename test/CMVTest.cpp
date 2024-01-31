@@ -96,6 +96,28 @@ TEST(CMV, LIC8_POSITIVE) {
     EXPECT_EQ(d.Lic8(), true);
 }
 
+TEST(CMV, LIC8_NEGATIVE) {
+    // triangle {0,0},{0,1},{1,0} cant fit in circle with radius 100  
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,1}, {0,0}, {0,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 100;
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), false);
+}
+
 TEST(CMV, LIC11) {
   std::vector<COORDINATE> points = {
       {0, 0},   {1, 1},   {2, 2},   {3, 3},   {4, 4},
