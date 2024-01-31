@@ -268,14 +268,16 @@ bool Decide::Lic4() {
     int count = 0;
     for (int j = 0; j < PARAMETERS.Q_PTS; j++) {
       COORDINATE p = COORDINATES[i + j];
-      if (p.x >= 0) {
-        if (p.y >= 0) {
+      // if (p.x >= 0) {
+      if (DOUBLECOMPARE(p.x, 0.0) != LT) {
+        // if (p.y >= 0) {
+        if (DOUBLECOMPARE(p.y, 0.0) != LT) {
           quadrants[0] = true;
         } else {
           quadrants[3] = true;
         }
       } else {
-        if (p.y >= 0) {
+        if (DOUBLECOMPARE(p.y, 0.0) != LT) {
           quadrants[1] = true;
         } else {
           quadrants[2] = true;
@@ -287,7 +289,7 @@ bool Decide::Lic4() {
         count += 1;
       }
     }
-    if (count > PARAMETERS.Q_PTS) {
+    if (count > PARAMETERS.QUADS) {
       return true;
     }
   }
