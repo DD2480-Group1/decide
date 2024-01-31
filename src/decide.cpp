@@ -591,7 +591,7 @@ bool Decide::Lic13() {
     }
 
     if (comp2 != GT) {
-      found_larger_triangle = true;
+      found_smaller_triangle = true;
     }
 
     if (found_larger_triangle && found_smaller_triangle) {
@@ -678,3 +678,4 @@ void Decide::Calc_LAUNCH() {
     LAUNCH = LAUNCH && FUV[i];
   }
 }
+
