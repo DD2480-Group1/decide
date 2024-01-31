@@ -335,7 +335,6 @@ bool Decide::Lic6() {
         double distance = sqrt(pow(p3.x - p1.x, 2) + pow(p3.y - p1.y, 2));
 
         if (DOUBLECOMPARE(distance, PARAMETERS.DIST) == GT) {
-          std::cout << "dis" << distance << " " << PARAMETERS.DIST << std::endl;
           return true;
         }
       }
