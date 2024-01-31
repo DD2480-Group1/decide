@@ -8,6 +8,139 @@ TEST(BasicTest, BasicAssertions) {
   EXPECT_EQ(1, 2);
 }
 
+// Tests that lic3 can identify a triangle
+// that is greater than PARAMETERS.AREA1
+TEST(CMV, LIC3_POSITIVE) {
+    // triangle with area 0.5
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,1}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.AREA1 = 0.4;
+    
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic3(), true);
+}
+
+// Tests that lic3 can identify a triangle
+// that is smaller than PARAMETERS.AREA1
+TEST(CMV, LIC3_NEGATIVE) {
+    // triangle with area 0.5
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,1}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.AREA1 = 0.6;
+    
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic3(), false);
+}
+
+// Test if lic3 correctly sets CMV[3] when there
+// exists a triangle with area == AREA1
+TEST(CMV, LIC3_BOUNDRARY) {
+    // triangle with area 0.5
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,1}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.AREA1 = 0.5;
+    
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic3(), false);
+}
+
+TEST(CMV, LIC8_POSITIVE) {
+    // triangle {0,0},{0,100},{100,0} cant fit in circle with radius 1  
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,100}, {0,0}, {0,0}, {100,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 1;
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), true);
+}
+
+TEST(CMV, LIC8_NEGATIVE) {
+    // triangle {0,0},{0,1},{1,0} cant fit in circle with radius 100  
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,1}, {0,0}, {0,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 100;
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), false);
+}
+
+TEST(CMV, LIC8_BOUNDRARY) {
+    // triangle {0,0},{0,1},{1,0} has a circumradius
+    // of (1/2)*sqrt(2)
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,1}, {0,0}, {0,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 0.5*sqrt(2.0);
+
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+ 
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    // the triangle should fit on the circle
+    EXPECT_EQ(d.Lic8(), false);
+}
+
 TEST(CMV, LIC11) {
   std::vector<COORDINATE> points = {
       {0, 0},   {1, 1},   {2, 2},   {3, 3},   {4, 4},
@@ -81,3 +214,78 @@ TEST(CMV, LIC11) {
 
   EXPECT_EQ(decide2.Lic11(), false);
 }
+
+TEST(CMV, LIC13_POSITIVE) {
+    // triangle {0,0},{0,100},{100,0} CANT fit in circle with radius 1  
+    // triangle {0,0},{0,1},{1,0} CAN fit in circle with radius 100  
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,100}, {0,1}, {0,0}, {100,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 1.0;
+    parameters.RADIUS2 = 100.0;
+
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), true);
+}
+
+TEST(CMV, LIC13_NEGATIVE) {
+    // triangle {0,0},{0,10},{10,0} CAN fit in circle with radius 100  
+    // triangle {0,0},{0,1},{1,0} CAN fit in a circle with radius 100
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,10}, {0,1}, {0,0}, {10,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 100.0;
+    parameters.RADIUS2 = 1.0;
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), false);
+}
+
+TEST(CMV, LIC13_BOUNDRARY) {
+    // triangle {0,0},{0,100},{100,0} CANT fit in circle with radius 1  
+    // triangle {0,0},{0,1},{1,0} fits ON the boundrary of a circle wwith radius
+    // 0.5 * sqrt(2)
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,0}, {0,0}, {0,100}, {0,1}, {0,0}, {100,0}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.A_PTS = 2;
+    parameters.B_PTS = 2;
+    parameters.RADIUS1 = 1.0;
+    parameters.RADIUS2 = 0.5 * sqrt(2);
+
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic8(), true);
+}
+
