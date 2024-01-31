@@ -204,14 +204,14 @@ bool Decide::Lic1() {
 bool Decide::Lic2() {
   // CONDITION: find three consecutive data points to form an angle with
   //            angle needs to be in range to enable LIC
-  const double &EPSILON = Decide::PARAMETERS.EPSILON;
+  const double &EPSILON = PARAMETERS.EPSILON;
 
   // -2 to prevent index error
-  for (int i = 0; i < Decide::NUMPOINTS - 2; ++i) {
+  for (int i = 0; i < NUMPOINTS - 2; ++i) {
     // create reference to coordinates, const to protect changes
-    const COORDINATE &point1 = Decide::COORDINATES[i];
-    const COORDINATE &point2 = Decide::COORDINATES[i + 1];
-    const COORDINATE &point3 = Decide::COORDINATES[i + 2];
+    const COORDINATE &point1 = COORDINATES[i];
+    const COORDINATE &point2 = COORDINATES[i + 1];
+    const COORDINATE &point3 = COORDINATES[i + 2];
 
     // the second point is the "vertex", if any point coincides with it
     // the angle is undefined, therfore is invalid
@@ -365,8 +365,7 @@ bool Decide::Lic6() {
 
 bool Decide::Lic7() {
   // create references
-  const int &NUMPOINTS = Decide::NUMPOINTS;
-  const int &K_PTS = Decide::PARAMETERS.K_PTS;
+  const int &K_PTS = PARAMETERS.K_PTS;
 
   // condition not met when NUMPOINTS less than three
   if (NUMPOINTS >= 3) {
@@ -376,13 +375,11 @@ bool Decide::Lic7() {
       // get the difference between current coordinate and coordinate K_PTS + 1
       // points ahead K_PTS + 1 because we want exactly K_PTS points BETWEEN, so
       // K_PTS nodes between i and i + (K_PTS + 1)
-      double dx =
-          Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
-      double dy =
-          Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+      double dx = COORDINATES[i + K_PTS + 1].x - COORDINATES[i].x;
+      double dy = COORDINATES[i + K_PTS + 1].y - COORDINATES[i].y;
       double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 
-      if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
+      if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT) {
         return true;
       }
     }
@@ -510,9 +507,8 @@ bool Decide::Lic12() {
   // create flags for both conditions
   bool condition1 = false;
   bool condition2 = false;
-  // create references
-  const int &NUMPOINTS = Decide::NUMPOINTS;
-  const int &K_PTS = Decide::PARAMETERS.K_PTS;
+  // create reference
+  const int &K_PTS = PARAMETERS.K_PTS;
 
   // if numpoints < 3, stop!
   if (NUMPOINTS < 3) {
@@ -521,24 +517,24 @@ bool Decide::Lic12() {
 
   // CODE REUSED FROM LIC7
   for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
-    double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
-    double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+    double dx = COORDINATES[i + K_PTS + 1].x - COORDINATES[i].x;
+    double dy = COORDINATES[i + K_PTS + 1].y - COORDINATES[i].y;
     double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 
     // check condition one
-    if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH1) == GT) {
+    if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH1) == GT) {
       condition1 = true;
       break;
     }
   }
 
   for (int i = 0; i < NUMPOINTS - K_PTS - 1; i++) {
-    double dx = Decide::COORDINATES[i + K_PTS + 1].x - Decide::COORDINATES[i].x;
-    double dy = Decide::COORDINATES[i + K_PTS + 1].y - Decide::COORDINATES[i].y;
+    double dx = COORDINATES[i + K_PTS + 1].x - COORDINATES[i].x;
+    double dy = COORDINATES[i + K_PTS + 1].y - COORDINATES[i].y;
     double distance = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 
     // check condition two
-    if (DOUBLECOMPARE(distance, Decide::PARAMETERS.LENGTH2) == LT) {
+    if (DOUBLECOMPARE(distance, PARAMETERS.LENGTH2) == LT) {
       condition2 = true;
       break;
     }
@@ -680,7 +676,6 @@ void Decide::decide() {
   } else {
     std::cout << "NO" << std::endl;
   }
-  // debugprint();
 }
 
 void Decide::Calc_LAUNCH() {
