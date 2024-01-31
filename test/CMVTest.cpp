@@ -30,6 +30,28 @@ TEST(CMV, LIC3_POSITIVE) {
     EXPECT_EQ(d.Lic3(), true);
 }
 
+// Tests that lic3 can identify a triangle
+// that is smaller than PARAMETERS.AREA1
+TEST(CMV, LIC3_NEGATIVE) {
+    // triangle with area 0.5
+    std::vector<COORDINATE> points = {
+        {0,0}, {0,1}, {1,0}
+    };
+
+    int numpoints = points.size();
+
+    PARAMETERS_T parameters;
+    parameters.AREA1 = 0.6;
+    
+    // these variables dont matter for this test
+    std::array<std::array<CONNECTORS, 15>, 15> lcm;
+    std::array<bool, 15> puv;
+    
+    Decide d(numpoints, points, parameters, lcm, puv);
+    
+    EXPECT_EQ(d.Lic3(), false);
+}
+
 TEST(CMV, LIC11) {
   std::vector<COORDINATE> points = {
       {0, 0},   {1, 1},   {2, 2},   {3, 3},   {4, 4},
@@ -103,3 +125,4 @@ TEST(CMV, LIC11) {
 
   EXPECT_EQ(decide2.Lic11(), false);
 }
+
