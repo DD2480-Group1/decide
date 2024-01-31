@@ -2,29 +2,6 @@
 #include "gmock/gmock.h"
 #include "decide.h"
 
-TEST(CMV, LIC1_POSITIVE) {
-  std::vector<COORDINATE> pointsP = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-  PARAMETERS_T paramP;
-  paramP.RADIUS1 = 0.5;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmP = {NOTUSED};
-  std::array<bool, 15> puvP = {0};
-
-  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
-
-  EXPECT_EQ(decideP.Lic1(), true);
-}
-TEST(CMV, LIC1_NEGATIVE) {
-  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
-  PARAMETERS_T paramN;
-  paramN.RADIUS1 = 6;
-  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
-  std::array<bool, 15> puvN;
-
-  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
-
-  EXPECT_EQ(decideN.Lic1(), false);
-}
-
 TEST(CMV, LIC1_BOUNDRARY) {
   std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}};
   PARAMETERS_T paramB;
@@ -153,6 +130,18 @@ TEST(CMV, LIC3_NEGATIVE) {
   Decide d(numpoints, points, parameters, lcm, puv);
 
   EXPECT_EQ(d.Lic3(), false);
+}
+
+TEST(CMV, LIC11_POSITIVE) {
+  std::vector<COORDINATE> pointsP = {{5, 0}, {3, 0}, {4, 4}};
+  PARAMETERS_T paramP;
+  paramP.G_PTS = 1;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmP = {NOTUSED};
+  std::array<bool, 15> puvP = {0};
+
+  Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
+
+  EXPECT_EQ(decideP.Lic11(), true);
 }
 
 // Test if lic3 correctly sets CMV[3] when there
@@ -291,26 +280,69 @@ TEST(CMV, LIC8_BOUNDRARY) {
   parameters.A_PTS = 2;
   parameters.B_PTS = 2;
   parameters.RADIUS1 = 0.5 * sqrt(2.0);
-
   std::array<std::array<CONNECTORS, 15>, 15> lcm;
   std::array<bool, 15> puv;
-
   Decide d(numpoints, points, parameters, lcm, puv);
 
   // the triangle should fit on the circle
   EXPECT_EQ(d.Lic8(), false);
 }
 
-TEST(CMV, LIC11_POSITIVE) {
-  std::vector<COORDINATE> pointsP = {{5, 0}, {3, 0}, {4, 4}};
+
+
+TEST(CMV, LIC1_POSITIVE) {
+  std::vector<COORDINATE> pointsP = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
   PARAMETERS_T paramP;
-  paramP.G_PTS = 1;
+  paramP.RADIUS1 = 0.5;
   std::array<std::array<CONNECTORS, 15>, 15> lcmP = {NOTUSED};
   std::array<bool, 15> puvP = {0};
 
   Decide decideP(pointsP.size(), pointsP, paramP, lcmP, puvP);
 
-  EXPECT_EQ(decideP.Lic11(), true);
+  EXPECT_EQ(decideP.Lic1(), true);
+}
+
+TEST(CMV, LIC1_NEGATIVE) {
+  std::vector<COORDINATE> pointsN = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}};
+  PARAMETERS_T paramN;
+  paramN.RADIUS1 = 6;
+  std::array<std::array<CONNECTORS, 15>, 15> lcmN;
+  std::array<bool, 15> puvN;
+
+  Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
+
+  EXPECT_EQ(decideN.Lic1(), false);
+}
+
+
+TEST(CMV, LIC4_Negative) {
+  std::vector<COORDINATE> points = {{0,0},{1,1},{2,2}};
+
+  PARAMETERS_T parameters;
+  parameters.Q_PTS = 3;
+  parameters.QUADS = 1; // 0.1 and 5.1 >= 5
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  Decide decide2(points.size(), points, parameters, lcm, puv);
+
+  // EXPECT_EQ(decide.Lic11(), false);
+  EXPECT_EQ(decide2.Lic4(), false);
+}
+ 
+
+ TEST(CMV, LIC4_Positive) {
+  std::vector<COORDINATE> points2 = {{0, 0}, {-1, 1}, {-2, 2}};
+
+  PARAMETERS_T parameters;
+  parameters.Q_PTS = 3;
+  parameters.QUADS = 1;
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+  std::array<bool, 15> puv;
+
+  Decide decide2(points2.size(), points2, parameters, lcm, puv);
+  
+  EXPECT_EQ(decide2.Lic4(), true);
 }
 
 TEST(CMV, LIC11_NEGATIVE) {
@@ -323,6 +355,76 @@ TEST(CMV, LIC11_NEGATIVE) {
   Decide decideN(pointsN.size(), pointsN, paramN, lcmN, puvN);
 
   EXPECT_EQ(decideN.Lic11(), false);
+}
+
+TEST(CMV, LIC9_Positive) {
+  std::vector<COORDINATE> points = {{0,0},{0,1},{1,1},{1,0},{2,1}};
+
+  PARAMETERS_T parameters;
+  parameters.D_PTS = 1;
+  parameters.C_PTS = 1;
+  parameters.EPSILON = 2;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+
+  std::array<bool, 15> puv = {0};
+
+  Decide decide2(points.size(), points, parameters, lcm, puv);
+
+  EXPECT_EQ(decide2.Lic9(), true);
+}
+
+TEST(CMV, LIC9_Negative) {
+
+  std::vector<COORDINATE> points2 = { {0,0},{0,1},{1,1},{1,0},{1,-1}};
+
+  PARAMETERS_T parameters;
+  parameters.D_PTS = 1;
+  parameters.C_PTS = 1;
+  parameters.EPSILON = 2;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm2;
+
+  std::array<bool, 15> puv2 = {0};
+
+  Decide decide2(points2.size(), points2, parameters, lcm2, puv2);
+
+  EXPECT_EQ(decide2.Lic9(), false);
+}
+
+TEST(CMV, LIC14_Positive) {
+  std::vector<COORDINATE> points = {{0,0},{0,4},{3,3},{4,0},{8,0}};
+
+  PARAMETERS_T parameters;
+  parameters.E_PTS = 1;
+  parameters.F_PTS = 1;
+  parameters.AREA1= 8;
+  parameters.AREA2= 16;
+  std::array<std::array<CONNECTORS, 15>, 15> lcm;
+
+  std::array<bool, 15> puv = {0};
+
+  Decide decide2(points.size(), points, parameters, lcm, puv);
+
+  EXPECT_EQ(decide2.Lic14(), true);
+}
+
+TEST(CMV,LIC14_Negative){
+  std::vector<COORDINATE> points2 = { {0,0},{0,4},{4,4},{4,0},{1,0}};
+
+  PARAMETERS_T parameters;
+  parameters.E_PTS = 1;
+  parameters.F_PTS = 1;
+  parameters.AREA1= 6;
+  parameters.AREA2= 16;
+
+  std::array<std::array<CONNECTORS, 15>, 15> lcm2;
+
+  std::array<bool, 15> puv2 = {0};
+
+  Decide decide2(points2.size(), points2, parameters, lcm2, puv2);
+
+  EXPECT_EQ(decide2.Lic14(), false);
 }
 
 TEST(CMV, LIC11_BOUNDRARY) {
