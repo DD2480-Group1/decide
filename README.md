@@ -71,7 +71,11 @@ Here are the dependecies used:
 
 Ahmed:
 
-* write here
+* Implemented LIC 0, 5 and 10
+* Implemented multiple unit tests for LIC 0, 5, 10. (9 in total)
+* Contributed to issue management, reviewed pull requests, and discussed different implementation methods with colleague.
+* Contribute in the main test cases
+* Contribute in Essence
 
 ZOU Hetai (Ed):
 
