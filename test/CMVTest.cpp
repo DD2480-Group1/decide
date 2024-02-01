@@ -815,3 +815,61 @@ TEST(LAUNCH, LAUNCH_POSITIVE2) {
 
   EXPECT_EQ(decide.LAUNCH, true);
 }
+
+
+// A really strict test case were every single lic needs to be true for 
+// the launch to be true. In this case every single lic isnt true.
+TEST(LAUNCH, LAUNCH_NEGATIVE) {
+
+  std::vector<COORDINATE> points = {{0,0}, {100,100}, {0, 0}, {20, 0}, {0,20}, {0,0}, {50, 0}, {100, 100}};
+
+  PARAMETERS_T parameters = {
+      10,  // LENGTH1
+      10,   // RADIUS1
+      10,   // EPSILON
+      10,  // AREA1: Set to a value that no triangle formed by the input points will exceed
+      10,   // Q_PTS
+      10,   // QUADS
+      10,   // DIST
+      10,   // N_PTS
+      10,   // K_PTS
+      10,   // A_PTS
+      10,   // B_PTS
+      10,   // C_PTS
+      10,   // D_PTS
+      1,   // E_PTS
+      1,   // F_PTS
+      3,   // G_PTS
+      3,   // LENGTH2
+      3,   // RADIUS2
+      3    // AREA2
+  };
+  
+  // This lcm should mean every single LIC specified in PUV needs to be true
+  std::array<std::array<CONNECTORS, 15>, 15> lcm = 
+    {{
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+    }};      
+  // Lic0, 3 and 6 need to be true.
+  std::array<bool, 15> puv = {true};
+
+  Decide decide(points.size(), points, parameters, lcm, puv);
+  decide.decide();
+
+  EXPECT_EQ(decide.LAUNCH, false);
+}
+
