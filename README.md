@@ -85,6 +85,7 @@ ZOU Hetai (Ed):
 * Contributed to create the unit test system using Google Test.
 * Contributed to managing and creating issues, reviewing colleagues pull requests and discussing different implementation methods.
 * Detailed the README file about the build instructions and the unit test instructions.
+* Wrote Essence.
 
 Elliot:
 
@@ -94,14 +95,15 @@ Elliot:
 * Implemented the CMV function.
 * Debugging and solving bug issues related to the LIC's.
 * Expanded the README file to enhance its content and structure. Also writing the about, prerequisites and dependencies section.
+* Wrote Essence.
 
 Hannes:
-- Did some work on creating a skeleton structure for the decide class
-- Implemented LIC 3, 8 and 13 
-- Implmented unit test for said LIC methods (9 in total)
-- Implemented the Calc_PUM() Method
-- Helped manage git workflow by reviewing pull requests and resolving merge conflicts.
-- Implemeted some tests for the whole decide program. 
+* Did some work on creating a skeleton structure for the decide class
+* Implemented LIC 3, 8 and 13 
+* Implmented unit test for said LIC methods (9 in total)
+* Implemented the Calc_PUM() Method
+* Helped manage git workflow by reviewing pull requests and resolving merge conflicts.
+* Implemeted some tests for the whole decide program. 
 
 Yening:
 
