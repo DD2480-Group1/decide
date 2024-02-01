@@ -753,6 +753,7 @@ TEST(CMV, LIC12_NEGATIVE_LENGHT2) {
 
   EXPECT_EQ(decide.Lic12(), false);
 }
+
 // Positive test case for LIC13(),
 // Test whether LIC13 will return true if points satisfies the requirement
 // Expected value TRUE
