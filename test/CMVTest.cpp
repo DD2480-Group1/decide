@@ -953,7 +953,6 @@ TEST(LAUNCH, LAUNCH_POSITIVE2) {
   EXPECT_EQ(decide.LAUNCH, true);
 }
 
-
 // Test case that checks that the function sets launch when it requires all lics 
 // to be true at the same time and they are
 TEST(LAUNCH, LAUNCH_POSITIVE3) {
