@@ -73,7 +73,7 @@ Ahmed:
 
 * write here
 
-Ed:
+ZOU Hetai (Ed):
 
 * Implemeted LIC 1, 6, and 11
 * Implemented multiple unit tests for LIC 1, 6, and 11. (9 in total)
