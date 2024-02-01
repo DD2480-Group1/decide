@@ -8,10 +8,10 @@ The variables are collected through theoretical instruments, but in this project
 
 Each LIC's have different conditions, and in order to understand these, each LIC has at least two unit tests, one positive and one negative, and sometimes additional tests. Furthermore, there are tested for the entire launch program.
 
-## Prerequisites 
+## Prerequisites
 
 Before downloading the source code and atempting to build the project, ensure you have the following requirements:
-* You have installed the latest version of 'C++'.
+
 * You have installed one of the following C++ compilers: 'GCC' or 'clang'.
 * You have installed 'cmake' and 'make'.
 * You have a 'Linux/Mac/Windows' machine.
@@ -23,12 +23,6 @@ To build with `cmake`
 ```bash
 mkdir build && cd build
 cmake ..
-make
-```
-
-To build with `make`
-
-```bash
 make
 ```
 
@@ -57,6 +51,7 @@ cd build
 ## Contributing to DECIDE
 
 To contribute to the DICDE code, follow these steps:
+
 1. Fork this repository
 2. Create a branch: `git checkout -b <branch_name>`
 3. Add changes and commit them, if possible link to a relevant issue: `git commit -m '<commit_message>'`
@@ -69,30 +64,40 @@ Pull request will be reviewed before being accepted.
 ## Dependecncies
 
 Here are the dependecies used:
-- [**Google Test**](https://google.github.io/googletest/primer.html): A testing framework for C++ programming, used for unit testing in this project. 
+
+* [**Google Test**](https://google.github.io/googletest/primer.html): A testing framework for C++ programming, used for unit testing in this project.
 
 ## Contributions
 
 Ahmed:
-- write here
+
+* write here
 
 Ed:
-- write here
+
+* Implemeted LIC 1, 6, and 11
+* Implemented multiple unit tests for LIC 1, 6, and 11. (9 in total)
+* Contributed to create the build system using MakeFile and CMake.
+* Contributed to create the unit test system using Google Test.
+* Contributed to managing and creating issues, reviewing colleagues pull requests and discussing different implementation methods.
+* Detailed the README file about the build instructions and the unit test instructions.
 
 Elliot:
-- Implemented LIC 2, 7 and 12
-- Implemented multiple unit tests for LIC 2, 7, 12. (9 in total)
-- Contributed to managing and creating issues, reviewing colleagues pull requests and discussing different implementation methods.
-- Implemented the CMV function
-- Debugging and solving bug issues related to the LIC's.
-- Expanded the README file to enhance its content and structure. Also writing the about, prerequisites and dependencies section.
+
+* Implemented LIC 2, 7 and 12
+* Implemented multiple unit tests for LIC 2, 7, 12. (9 in total)
+* Contributed to managing and creating issues, reviewing colleagues pull requests and discussing different implementation methods.
+* Implemented the CMV function
+* Debugging and solving bug issues related to the LIC's.
+* Expanded the README file to enhance its content and structure. Also writing the about, prerequisites and dependencies section.
 
 Hannes:
-- write here
+
+* write here
 
 Yening:
-- write here
 
+* write here
 
 ## Essence
 
@@ -103,13 +108,13 @@ In what state are you in? Why? What are obstacles to reach the next state?
 
 ### Compulsory
 
-- [ ] good README with a statement of contributions
-- [ ] functional program
-- [x] unit tests, 2 per LIC
-- [ ] collaboration i.e. commits
-- [ ] workflow and its documentation
+* [ ] good README with a statement of contributions
+* [ ] functional program
+* [x] unit tests, 2 per LIC
+* [ ] collaboration i.e. commits
+* [ ] workflow and its documentation
 
 ### Optional
 
-- [ ] commits linked to issues
-- [ ] "something remarkable"
+* [ ] commits linked to issues
+* [ ] "something remarkable"
