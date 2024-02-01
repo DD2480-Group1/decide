@@ -259,7 +259,7 @@ bool Decide::Lic3() {
 bool Decide::Lic4() {
   if (NUMPOINTS < PARAMETERS.Q_PTS)
     return false;
-    
+  
   for (int i = 0; i < NUMPOINTS - PARAMETERS.Q_PTS + 1; i++) {
     bool quadrants[4];
     for (int k = 0; k < 4; k++) {

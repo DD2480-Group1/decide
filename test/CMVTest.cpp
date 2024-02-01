@@ -879,11 +879,27 @@ TEST(LAUNCH, LAUNCH_POSITIVE) {
 
   std::vector<COORDINATE> points = {{0,0}, {100,100}, {0, 0}, {20, 0}, {0,20}, {0,0}, {50, 0}, {100, 100}};
 
-  PARAMETERS_T parameters;
-  parameters.LENGTH1 = 100;
-  parameters.AREA1 = 9.5;
-  parameters.DIST = 10;
-  parameters.N_PTS = 3;
+  PARAMETERS_T parameters = {
+      100,  // LENGTH1
+      9.5,  // RADIUS1
+      0,  // EPSILON
+      5,  // AREA1
+      0,  // Q_PTS
+      0,  // QUADS
+      10,  // DIST
+      3,  // N_PTS
+      0,  // K_PTS
+      0,  // A_PTS
+      0,  // B_PTS
+      0,  // C_PTS
+      0,  // D_PTS
+      1,  // E_PTS
+      1,  // F_PTS
+      0,  // G_PTS
+      0,  // LENGTH2
+      0,  // RADIUS2
+      0   // AREA2
+  };
 
   std::array<std::array<CONNECTORS, 15>, 15> lcm = 
     {{
@@ -922,7 +938,27 @@ TEST(LAUNCH, LAUNCH_POSITIVE) {
 TEST(LAUNCH, LAUNCH_POSITIVE2) {
   std::vector<COORDINATE> points = {{0,0}, {100,100}, {0, 0}, {20, 0}, {0,20}, {0,0}, {50, 0}, {100, 100}};
 
-  PARAMETERS_T parameters;
+  PARAMETERS_T parameters = {
+      100,  // LENGTH1
+      9.5,  // RADIUS1
+      0,  // EPSILON
+      5,  // AREA1
+      0,  // Q_PTS
+      0,  // QUADS
+      10,  // DIST
+      3,  // N_PTS
+      0,  // K_PTS
+      0,  // A_PTS
+      0,  // B_PTS
+      0,  // C_PTS
+      0,  // D_PTS
+      1,  // E_PTS
+      1,  // F_PTS
+      0,  // G_PTS
+      0,  // LENGTH2
+      0,  // RADIUS2
+      0   // AREA2
+  };
   
   // A pum of only not used should always give a true launch
   std::array<std::array<CONNECTORS, 15>, 15> lcm = 
@@ -1093,4 +1129,3 @@ TEST(LAUNCH, LAUNCH_NEGATIVE) {
 
   EXPECT_EQ(decide.LAUNCH, false);
 }
-
