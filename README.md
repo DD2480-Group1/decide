@@ -121,16 +121,3 @@ Furthermore, communication was handled through discord, we mainly worked togethe
 The checkpoint we are currently on is creating a procedure to handle feedback on the team's way of working. This is a task we have not considered yet as a team, since we have mainly been focused on coding and finalizing the project. To overcome this obstacle we will try to create a blameless and transparent working culture. This will be fostered by having a small feedback discussion session at the beginning of each meeting (in the future). Hopefully this gives room for colleagues to voice their conscience in a respectful and mature environment.
 
 To reach the next state “In-Place” we need to get more comfortable with the tools and practices to allow us to work more seamlessly. Pull-requests and merges should happen in the background so we don’t need to have long meetings in order to solve them. Referencing issues in commits, as well as creating issues, should also become a habit to everyone. We should not even need to actively think about it, just do it.
-
-### Compulsory
-
-* [x] good README with a statement of contributions
-* [ ] functional program
-* [x] unit tests, 2 per LIC
-* [ ] collaboration i.e. commits
-* [ ] workflow and its documentation
-
-### Optional
-
-* [ ] commits linked to issues
-* [ ] "something remarkable"
