@@ -41,7 +41,7 @@ cd build
 ```
 
 ```bash
-./decide ../example_input.txt
+./decide ../test/example_input.txt
 ```
 
 To run the tests
