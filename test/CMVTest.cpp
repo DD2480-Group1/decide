@@ -996,6 +996,49 @@ TEST(LAUNCH, LAUNCH_POSITIVE3) {
   EXPECT_EQ(decide.LAUNCH, true);
 }
 
+// All lics are required to be true for launch to be true, all except one are.
+// verify that launch is false in this instance.
+TEST(LAUNCH, LAUNCH_NEGATIVE2) {
+  
+  std::vector<COORDINATE> points = {{1,2},{3,4}};
+  // This lcm should mean every single LIC specified in PUV needs to be true
+  std::array<std::array<CONNECTORS, 15>, 15> lcm = 
+    {{
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+      {ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD, ANDD},
+    }};      
+ 
+  std::array<bool, 15> puv = {true};
+
+  PARAMETERS_T parameters;
+
+  Decide decide(points.size(), points, parameters, lcm, puv);
+  
+  for(int i = 0; i < 15; ++i) {
+    decide.CMV[i]= true;
+  }
+  decide.CMV[0] = false;
+
+  decide.Calc_PUM();
+  decide.Calc_FUV();
+  decide.Calc_LAUNCH();
+
+  EXPECT_EQ(decide.LAUNCH, false);
+}
+
 // A really strict test case were every single lic needs to be true for 
 // the launch to be true. In this case every single lic isnt true.
 TEST(LAUNCH, LAUNCH_NEGATIVE) {
