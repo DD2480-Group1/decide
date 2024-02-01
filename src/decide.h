@@ -96,6 +96,8 @@ class Decide {
   FRIEND_TEST(CMV, LIC14_NEGATIVE);
   // DUMMY TEST
   FRIEND_TEST(CMV, LIC11);
+  
+  FRIEND_TEST(LAUNCH, LAUNCH_POSITIVE);
 
  private:
   // Inputs
