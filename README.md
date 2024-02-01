@@ -108,12 +108,15 @@ Yening:
 
 ## Essence
 
-TODO:
-In what state are you in? Why? What are obstacles to reach the next state?
+Assessing the workflow within the team, we have come to the conclusion that our Way-of-Working is currently at the state of **In-Use**. Specifically we have reached the point of “Procedures are in place to handle feedback on the team’s way of working”. 
 
-### In-Use?
+Looking at the two previous states, they are related to the foundation of the workflow, such as establishing the principles, tools and methods we will use during the collaboration. We all agreed to use GitHub and related workflows such as issues, pull requests, and reviews to assure the quality of the work. We also very early agreed upon the programming language as well as expectations of the project, i.e. what we will try to achieve, a passing grade. 
 
-Assesing the workflow within the team, we have come to the conclusion that our Way-of-Working is currently at the state of **in-use**.
+Furthermore, communication was handled through discord, we mainly worked together in the same call so the workflow could easily be adapted. For example if someone needed help with the tools, or if someone found a bug, they could quickly share their screen to resolve any issues. The tools were also adapted towards our needs, since they were evolving with the project's progress. For instance, we switched from primarily using `make` to `cmake` in order to implement unit testing. This change was swift and caused little hassle.
+
+The checkpoint we are currently on is creating a procedure to handle feedback on the team's way of working. This is a task we have not considered yet as a team, since we have mainly been focused on coding and finalizing the project. To overcome this obstacle we will try to create a blameless and transparent working culture. This will be fostered by having a small feedback discussion session at the beginning of each meeting (in the future). Hopefully this gives room for colleagues to voice their conscience in a respectful and mature environment.
+
+To reach the next state “In-Place” we need to get more comfortable with the tools and practices to allow us to work more seamlessly. Pull-requests and merges should happen in the background so we don’t need to have long meetings in order to solve them. Referencing issues in commits, as well as creating issues, should also become a habit to everyone. We should not even need to actively think about it, just do it.
 
 ## TODO
 
