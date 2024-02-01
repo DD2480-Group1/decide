@@ -297,7 +297,7 @@ TEST(CMV, LIC5_NEGATIVE) {
 // Test whether LIC6 will return true if distance is larger than DIST
 // Expected value TRUE
 TEST(CMV, LIC6_POSITIVE) {
-  std::vector<COORDINATE> pointsP = {{0, 0}, {3, 0}, {0, 4}};
+  std::vector<COORDINATE> pointsP = {{0, 0}, {3, 0}, {12, 4}, {3, 4}, {9, 10}};
   // create parameters container
   PARAMETERS_T paramP;
   paramP.DIST = 0.5;
@@ -335,12 +335,12 @@ TEST(CMV, LIC6_NEGATIVE) {
 // Test whether LIC6 will return false if distance is equal to DIST
 // Expected value FALSE
 TEST(CMV, LIC6_BOUNDRARY) {
-  std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}};
+  std::vector<COORDINATE> pointsB = {{0, 0}, {3, 0}, {0, 4}, {3, 4}, {3, 4}};
   // 
   // create parameters container
   PARAMETERS_T paramB;
-  paramB.DIST = 4;
-  paramB.N_PTS = 1;
+  paramB.DIST = 5;
+  paramB.N_PTS = 3;
   // dummy variables
   std::array<std::array<CONNECTORS, 15>, 15> lcmB;
   std::array<bool, 15> puvB;
