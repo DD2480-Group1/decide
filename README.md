@@ -35,7 +35,7 @@ cd build
 ```
 
 ```bash
-./decide
+./decide ../test/example_input.txt
 ```
 
 To run the tests
@@ -87,7 +87,7 @@ Elliot:
 * Implemented LIC 2, 7 and 12
 * Implemented multiple unit tests for LIC 2, 7, 12. (9 in total)
 * Contributed to managing and creating issues, reviewing colleagues pull requests and discussing different implementation methods.
-* Implemented the CMV function
+* Implemented the CMV function.
 * Debugging and solving bug issues related to the LIC's.
 * Expanded the README file to enhance its content and structure. Also writing the about, prerequisites and dependencies section.
 
@@ -97,12 +97,19 @@ Hannes:
 
 Yening:
 
-* write here
+* Implemented LIC 4, 9 and 14.
+* Implemented multiple unit tests for LIC 4, 9, 14.
+* Implemented the FUV function.
+* Helped documenting unit tests for LICs.
 
 ## Essence
 
 TODO:
 In what state are you in? Why? What are obstacles to reach the next state?
+
+### In-Use?
+
+Assesing the workflow within the team, we have come to the conclusion that our Way-of-Working is currently at the state of **in-use**.
 
 ## TODO
 
