@@ -118,11 +118,9 @@ The checkpoint we are currently on is creating a procedure to handle feedback on
 
 To reach the next state “In-Place” we need to get more comfortable with the tools and practices to allow us to work more seamlessly. Pull-requests and merges should happen in the background so we don’t need to have long meetings in order to solve them. Referencing issues in commits, as well as creating issues, should also become a habit to everyone. We should not even need to actively think about it, just do it.
 
-## TODO
-
 ### Compulsory
 
-* [ ] good README with a statement of contributions
+* [x] good README with a statement of contributions
 * [ ] functional program
 * [x] unit tests, 2 per LIC
 * [ ] collaboration i.e. commits
