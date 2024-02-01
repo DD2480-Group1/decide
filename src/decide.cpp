@@ -634,6 +634,7 @@ void Decide::Calc_PUM() {
   for (int x = 0; x < 15; ++x) {
     for (int y = 0; y < 15; ++y) {
       if (x == y) {
+        PUM[y][x] = true;
         continue;
       }
 

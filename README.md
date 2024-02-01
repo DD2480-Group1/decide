@@ -92,8 +92,12 @@ Elliot:
 * Expanded the README file to enhance its content and structure. Also writing the about, prerequisites and dependencies section.
 
 Hannes:
-
-* write here
+- Did some work on creating a skeleton structure for the decide class
+- Implemented LIC 3, 8 and 13 
+- Implmented unit test for said LIC methods (9 in total)
+- Implemented the Calc_PUM() Method
+- Helped manage git workflow by reviewing pull requests and resolving merge conflicts.
+- Implemeted some tests for the whole decide program. 
 
 Yening:
 
