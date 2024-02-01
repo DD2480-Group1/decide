@@ -265,6 +265,7 @@ bool Decide::Lic4() {
     for (int k = 0; k < 4; k++) {
       quadrants[k] = false;
     }
+
     int count = 0;
     for (int j = 0; j < PARAMETERS.Q_PTS; j++) {
       COORDINATE p = COORDINATES[i + j];
@@ -293,7 +294,6 @@ bool Decide::Lic4() {
       return true;
     }
   }
-  // CMV[4] = false;
   return false;
 }
 
@@ -306,7 +306,6 @@ bool Decide::Lic5() {
       return true;
     }
   }
-
   return false;
 }
 
@@ -611,7 +610,7 @@ bool Decide::Lic14() {
     a.push_back(COORDINATES[i]);
     a.push_back(COORDINATES[i + PARAMETERS.E_PTS + 1]);
     a.push_back(COORDINATES[i + PARAMETERS.E_PTS + PARAMETERS.F_PTS + 2]);
-    double area = (a[0].x * a[1].y + a[1].x * a[2].y + a[2].x * a[0].y -
+    double area = fabs(a[0].x * a[1].y + a[1].x * a[2].y + a[2].x * a[0].y -
                    a[0].x * a[2].y - a[1].x * a[0].y - a[2].x * a[1].y) /
                   2;
 
