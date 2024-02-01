@@ -98,6 +98,7 @@ class Decide {
   FRIEND_TEST(CMV, LIC11);
   
   FRIEND_TEST(LAUNCH, LAUNCH_POSITIVE);
+  FRIEND_TEST(LAUNCH, LAUNCH_POSITIVE2);
 
  private:
   // Inputs
