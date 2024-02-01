@@ -99,9 +99,11 @@ class Decide {
   
   FRIEND_TEST(LAUNCH, LAUNCH_POSITIVE);
   FRIEND_TEST(LAUNCH, LAUNCH_POSITIVE2);
+  FRIEND_TEST(LAUNCH, LAUNCH_POSITIVE3);
   FRIEND_TEST(LAUNCH, LAUNCH_NEGATIVE);
+  FRIEND_TEST(LAUNCH, LAUNCH_NEGATIVE2);
 
- private:
+private:
   // Inputs
   const int NUMPOINTS;  // Number of planar data points.
   const std::vector<COORDINATE>
