@@ -94,9 +94,9 @@ To contribute to the DECIDE code, follow these steps:
 
 Pull request will be reviewed before being accepted.
 
-## Dependecncies
+## Dependencies
 
-Here are the dependecies used:
+Here are the dependencies used:
 
 * [**Google Test**](https://google.github.io/googletest/primer.html): A testing framework for C++ programming, used for unit testing in this project.
 
