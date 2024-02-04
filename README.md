@@ -55,7 +55,7 @@ Each commit message should consist of a subject and a body. Please follow this m
 **Subject**
 * The first line (the title) is the subject and should contain imperative language, present tense: "Fix bug" not "Fixed bug".
 * The subject should also start with a capital letter, not end on a period and be less than fifty characters.
-* Prexif is not required as long as the subject summarizes the change itself.
+* Prefix is not required as long as the subject summarizes the change itself.
 
 After the subject, a blank line should be made followed by the body.
 
