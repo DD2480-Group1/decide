@@ -148,6 +148,16 @@ void Decide::Calc_CMV() {
   Decide::CMV[14] = Lic14();
 }
 
+
+/**
+ * @brief There exists at least one set of two consecutive data points that are a distance greater than
+   the length, LENGTH1, apart. 
+   (0 ≤ LENGTH1)
+
+ * @return true 
+ * @return false 
+ */
+
 bool Decide::Lic0() {
   // Iterate through consecutive pairs of points
   for (int i = 0; i < NUMPOINTS - 1; ++i) {
@@ -167,9 +177,11 @@ bool Decide::Lic0() {
 /**
  * @brief There exists at least one set of three consecutive data points that
  * cannot all be contained within or on a circle of radius RADIUS1.
+ * (0 ≤ RADIUS1)
  *
  * https://artofproblemsolving.com/wiki/index.php/Circumradius
  */
+
 bool Decide::Lic1() {
   for (int i = 0; i < NUMPOINTS - 2; ++i) {
     COORDINATE p1 = COORDINATES[i];
@@ -200,6 +212,19 @@ bool Decide::Lic1() {
   }
   return false;
 }
+
+
+/**
+ * @brief There exists at least one set of three consecutive data points which form an angle such that:
+          angle < (PI−EPSILON) or angle > (PI+EPSILON)
+          The second of the three consecutive points is always the vertex of the angle. If either the first
+          point or the last point (or both) coincides with the vertex, the angle is undefined and the LIC
+          is not satisfied by those three points.
+          (0 ≤ EPSILON < PI)
+ * 
+ * @return true 
+ * @return false 
+ */
 
 bool Decide::Lic2() {
   // CONDITION: find three consecutive data points to form an angle with
@@ -232,6 +257,16 @@ bool Decide::Lic2() {
   return false;
 }
 
+
+/**
+ * @brief There exists at least one set of three consecutive data points that are the vertices of a triangle
+          with area greater than AREA1.
+          (0 ≤ AREA1)
+
+ * @return true 
+ * @return false 
+ */
+
 bool Decide::Lic3() {
   bool found_greater_area = false;
 
@@ -256,10 +291,23 @@ bool Decide::Lic3() {
   return found_greater_area;
 }
 
+/**
+ * @brief There exists at least one set of Q_PTS consecutive data points that lie in more than QUADS
+          quadrants. Where there is ambiguity as to which quadrant contains a given point, priority
+          of decision will be by quadrant number, i.e., I, II, III, IV. For example, the data point (0,0)
+          is in quadrant I, the point (-l,0) is in quadrant II, the point (0,-l) is in quadrant III, the point
+          (0,1) is in quadrant I and the point (1,0) is in quadrant I.
+          (2 ≤ Q PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3)
+
+ * 
+ * @return true 
+ * @return false 
+ */
+
 bool Decide::Lic4() {
   if (NUMPOINTS < PARAMETERS.Q_PTS)
     return false;
-  
+    
   for (int i = 0; i < NUMPOINTS - PARAMETERS.Q_PTS + 1; i++) {
     bool quadrants[4];
     for (int k = 0; k < 4; k++) {
@@ -297,6 +345,14 @@ bool Decide::Lic4() {
   return false;
 }
 
+
+/**
+ * @brief There exists at least one set of two consecutive data points, (X[i],Y[i]) and (X[j],Y[j]), such
+          that X[j] - X[i] < 0. (where i = j-1)
+ * 
+ * @return true 
+ * @return false 
+ */
 bool Decide::Lic5() {
   // Iterate through consecutive pairs of data points
   for (int i = 0; i < NUMPOINTS - 1; i++) {
@@ -306,6 +362,7 @@ bool Decide::Lic5() {
       return true;
     }
   }
+
   return false;
 }
 
@@ -362,6 +419,16 @@ bool Decide::Lic6() {
   return false;
 }
 
+/**
+ * @brief There exists at least one set of two data points separated by exactly K PTS consecutive 
+ * intervening points that are a distance greater than the length, LENGTH1, apart. The condition
+   is not met when NUMPOINTS < 3.
+   1 ≤ K PTS ≤ (NUMPOINTS−2)
+
+ * 
+ * @return true 
+ * @return false 
+ */
 bool Decide::Lic7() {
   // create references
   const int &K_PTS = PARAMETERS.K_PTS;
@@ -387,6 +454,18 @@ bool Decide::Lic7() {
   // set the corresponding Conditions Met Vector
   return false;
 }
+
+/**
+ * @brief There exists at least one set of three data points separated by exactly A PTS and B PTS
+          consecutive intervening points, respectively, that cannot be contained within or on a circle of
+          radius RADIUS1. The condition is not met when NUMPOINTS < 5.
+          1 ≤ A PTS, 1 ≤ B PTS
+          A PTS+B PTS ≤ (NUMPOINTS−3)
+
+ * 
+ * @return true 
+ * @return false 
+ */
 
 bool Decide::Lic8() {
   if (NUMPOINTS < 5) {
@@ -428,6 +507,20 @@ bool Decide::Lic8() {
   return found_larger_triangle;
 }
 
+/**
+ * @brief There exists at least one set of three data points separated by exactly C PTS and D PTS
+          consecutive intervening points, respectively, that form an angle such that:
+          angle < (PI−EPSILON) or angle > (PI+EPSILON)
+          The second point of the set of three points is always the vertex of the angle. If either the first
+          point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+          is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+          1 ≤ C PTS, 1 ≤ D PTS
+          C PTS+D PTS ≤ NUMPOINTS−3
+ * 
+ * @return true 
+ * @return false 
+ */
+
 bool Decide::Lic9() {
   if (NUMPOINTS < 5)
     return false;
@@ -452,6 +545,17 @@ bool Decide::Lic9() {
 
   return false;
 }
+
+/**
+ * @brief There exists at least one set of three data points separated by exactly E_PTS and F_PTS 
+ * consecutive intervening points, respectively, that are the vertices of a triangle with area greater
+   than AREA1. The condition is not met when NUMPOINTS < 5.
+   1 ≤ E PTS, 1 ≤ F PTS
+   E_PTS + F_PTS ≤ NUMPOINTS−3
+ * 
+ * @return true 
+ * @return false 
+ */
 
 bool Decide::Lic10() {
   if (NUMPOINTS < 5) {
@@ -502,6 +606,19 @@ bool Decide::Lic11() {
   return false;
 }
 
+/**
+ * @brief There exists at least one set of two data points, separated by exactly K PTS consecutive
+          intervening points, which are a distance greater than the length, LENGTH1, apart. In addition, 
+          there exists at least one set of two data points (which can be the same or different from
+          the two data points just mentioned), separated by exactly K PTS consecutive intervening
+          points, that are a distance less than the length, LENGTH2, apart. Both parts must be true
+          for the LIC to be true. The condition is not met when NUMPOINTS < 3.
+          0 ≤ LENGTH2
+ * 
+ * @return true 
+ * @return false 
+ */
+
 bool Decide::Lic12() {
   // create flags for both conditions
   bool condition1 = false;
@@ -546,6 +663,22 @@ bool Decide::Lic12() {
     return false;
   }
 }
+
+
+/**
+ * @brief There exists at least one set of three data points, separated by exactly A PTS and B PTS
+consecutive intervening points, respectively, that cannot be contained within or on a circle of
+radius RADIUS1. In addition, there exists at least one set of three data points (which can be
+the same or different from the three data points just mentioned) separated by exactly A PTS
+and B PTS consecutive intervening points, respectively, that can be contained in or on a
+circle of radius RADIUS2. Both parts must be true for the LIC to be true. The condition is
+not met when NUMPOINTS < 5.
+0 ≤ RADIUS2
+
+ * 
+ * @return true 
+ * @return false 
+ */
 
 bool Decide::Lic13() {
   if (NUMPOINTS < 5) {
@@ -596,6 +729,21 @@ bool Decide::Lic13() {
   return found_smaller_triangle && found_larger_triangle;
 }
 
+
+/**
+ * @brief There exists at least one set of three data points, separated by exactly E_PTS and F_PTS 
+ * consecutive intervening points, respectively, that are the vertices of a triangle with area greater
+   than AREA1. In addition, there exist three data points (which can be the same or different
+   from the three data points just mentioned) separated by exactly E PTS and F PTS consecutive intervening points,
+   respectively, that are the vertices of a triangle with area less than
+   AREA2. Both parts must be true for the LIC to be true. The condition is not met when
+   NUMPOINTS < 5.
+   0 ≤ AREA2
+ * 
+ * @return true 
+ * @return false 
+ */
+
 bool Decide::Lic14() {
   if (NUMPOINTS < 5)
     return false;
@@ -630,6 +778,8 @@ bool Decide::Lic14() {
   return false;
 }
 
+
+
 void Decide::Calc_PUM() {
   for (int x = 0; x < 15; ++x) {
     for (int y = 0; y < 15; ++y) {
@@ -654,6 +804,7 @@ void Decide::Calc_PUM() {
     }
   }
 }
+
 
 void Decide::Calc_FUV() {
   bool a;
