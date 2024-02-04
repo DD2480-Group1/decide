@@ -4,13 +4,13 @@
 
 This is a theoretical program for an anti-ballistic missile system, implemented in C++ according to the requirement specifications. The program decides through multiple different input variables whether to launch or not launch a missile, outputting "YES" or "NO".
 
-The variables are collected through theoretical instruments, but in this project the input variables are set through a constructor class. Afterwards, the decode method can be executed in order to determine if a launch should be made, needing to pass 15 "LIC's" which are functions that check the input data against certain conditions.
+The variables are collected through theoretical instruments, but in this project the input variables are set through a constructor class. Afterwards, the decode method can be executed in order to determine whether a launch should be made. It needs to pass 15 "LIC's", which are functions that check the input data against certain conditions.
 
-Each LIC's have different conditions, and in order to understand these, each LIC has at least two unit tests, one positive and one negative, and sometimes additional tests. Furthermore, there are tested for the entire launch program.
+Each LIC's have different conditions, and in order to understand these, each LIC has at least two unit tests, one positive and one negative, and sometimes additional tests. Furthermore, they are tested for the entire launch program.
 
 ## Prerequisites
 
-Before downloading the source code and atempting to build the project, ensure you have the following requirements:
+Before downloading the source code and attempting to build the project, ensure that you have met the following requirements:
 
 * You have installed one of the following C++ compilers: 'GCC' or 'clang'.
 * You have installed 'cmake' and 'make'.
@@ -83,7 +83,7 @@ Closes #64
 
 ## Contributing to DECIDE
 
-To contribute to the DICDE code, follow these steps:
+To contribute to the DECIDE code, follow these steps:
 
 1. Fork this repository
 2. Create a branch: `git checkout -b <branch_name>`
@@ -94,9 +94,9 @@ To contribute to the DICDE code, follow these steps:
 
 Pull request will be reviewed before being accepted.
 
-## Dependecncies
+## Dependencies
 
-Here are the dependecies used:
+Here are the dependencies used:
 
 * [**Google Test**](https://google.github.io/googletest/primer.html): A testing framework for C++ programming, used for unit testing in this project.
 
@@ -104,15 +104,15 @@ Here are the dependecies used:
 
 Ahmed:
 
-* Implemented LIC 0, 5 and 10
+* Implemented LIC 0, 5 and 10.
 * Implemented multiple unit tests for LIC 0, 5, 10. (9 in total)
 * Contributed to issue management, reviewed pull requests, and discussed different implementation methods with colleague.
-* Contribute in the main test cases
-* Contribute in Essence
+* Contribute in the main test cases.
+* Contribute in Essence.
 
 ZOU Hetai (Ed):
 
-* Implemeted LIC 1, 6, and 11
+* Implemented LIC 1, 6, and 11.
 * Implemented multiple unit tests for LIC 1, 6, and 11. (9 in total)
 * Contributed to create the build system using MakeFile and CMake.
 * Contributed to create the unit test system using Google Test.
@@ -122,21 +122,21 @@ ZOU Hetai (Ed):
 
 Elliot:
 
-* Implemented LIC 2, 7 and 12
+* Implemented LIC 2, 7 and 12.
 * Implemented multiple unit tests for LIC 2, 7, 12. (9 in total)
-* Contributed to managing and creating issues, reviewing colleagues pull requests and discussing different implementation methods.
+* Contributed to managing and creating issues, reviewing colleagues' pull requests and discussing different implementation methods.
 * Implemented the CMV function.
 * Debugging and solving bug issues related to the LIC's.
 * Expanded the README file to enhance its content and structure. Also writing the about, prerequisites and dependencies section.
 * Wrote Essence.
 
 Hannes:
-* Did some work on creating a skeleton structure for the decide class
-* Implemented LIC 3, 8 and 13 
-* Implmented unit test for said LIC methods (9 in total)
-* Implemented the Calc_PUM() Method
+* Did some work on creating a skeleton structure for the decide class.
+* Implemented LIC 3, 8 and 13.
+* Implemented unit test for said LIC methods. (9 in total)
+* Implemented the Calc_PUM() Method.
 * Helped manage git workflow by reviewing pull requests and resolving merge conflicts.
-* Implemeted some tests for the whole decide program. 
+* Implemented some tests for the whole decide program. 
 
 Yening:
 
