@@ -1,6 +1,6 @@
-#include <iostream>
 #include "decide.h"
 #include <fstream>
+#include <iostream>
 
 int main(int argc, char *argv[]) {
   // dummy values for testing
